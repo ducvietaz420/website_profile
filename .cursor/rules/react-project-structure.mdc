@@ -1,0 +1,123 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# Cấu trúc Dự án React
+
+## Cấu trúc thư mục
+
+Đây là cấu trúc thư mục chính của dự án React:
+
+```
+my-react-app-project-2025/
+├── public/                    # Các tập tin tĩnh (favicon, index.html, manifest.json)
+├── src/                       # Mã nguồn chính
+│   ├── assets/                # Hình ảnh, font, icons, CSS, SCSS...
+│   ├── components/            # Các component dùng chung
+│   │   ├── ui/               # Các component UI chung (Button, Modal, Input)
+│   │   ├── layout/           # Các layout như Navbar, Sidebar, Footer
+│   │   ├── hooks/            # Custom hooks (useState, useAuth...)
+│   │   └── utils/            # Hàm tiện ích (formatDate, debounce...)
+│   ├── pages/                 # Các trang (Home, About, Dashboard...)
+│   │   ├── Home/             # Nội page có thư mục riêng
+│   │   ├── About/
+│   │   └── Dashboard/
+│   ├── store/                 # Quản lý state (Redux, Zustand...)
+│   │   ├── slices/           # Redux slices (authSlice, userSlice)
+│   │   └── index.ts          # Combine các reducers
+│   ├── routes/                # Cấu hình Routes
+│   │   ├── privateRoutes.ts  # Route yêu cầu đăng nhập
+│   │   ├── publicRoutes.ts   # Route không yêu cầu đăng nhập
+│   │   └── index.tsx         # App Router chính
+│   ├── services/              # API services (Axios, Fetch)
+│   │   ├── authService.ts    # Service xác thực
+│   │   └── userService.ts    # Service người dùng
+│   ├── config/               # Cấu hình chung
+│   │   ├── axios.ts         # Cấu hình axios
+│   │   ├── env.ts           # Load biến môi trường
+│   │   └── theme.ts         # Light/Dark Theme config
+│   ├── types/                # Chứa TypeScript types
+│   │   ├── user.ts          # Định nghĩa kiểu dữ liệu User
+│   │   └── auth.ts          # Định nghĩa kiểu dữ liệu Auth
+│   ├── App.tsx               # Component gốc của ứng dụng
+│   └── main.tsx              # Entry point của ứng dụng
+├── .env                       # Biến môi trường
+├── tsconfig.json              # Cấu hình TypeScript
+├── tailwind.config.js         # Cấu hình Tailwind CSS
+├── package.json               # Danh sách dependencies
+├── vite.config.ts             # Cấu hình Vite
+└── README.md                  # Tài liệu dự án
+```
+
+## Hướng dẫn sử dụng codebase
+
+### Đường dẫn alias
+
+Dự án sử dụng đường dẫn alias để tránh đường dẫn tương đối phức tạp:
+
+```typescript
+// Sử dụng đường dẫn alias
+import { Button } from '@ui/Button';
+import { useAuth } from '@hooks/useAuth';
+import { userService } from '@services/userService';
+```
+
+Các alias chính:
+- `@/` - thư mục src
+- `@components/` - thư mục components
+- `@ui/` - thư mục components/ui
+- `@layout/` - thư mục components/layout
+- `@hooks/` - thư mục components/hooks
+- `@utils/` - thư mục components/utils
+- `@pages/` - thư mục pages
+- `@services/` - thư mục services
+- `@store/` - thư mục store
+- `@types/` - thư mục types
+- `@assets/` - thư mục assets
+- `@config/` - thư mục config
+- `@routes/` - thư mục routes
+
+### Cấu trúc component
+
+Các component nên được tổ chức theo cấu trúc sau:
+
+- Component UI cơ bản (Button, Input, Modal) đặt trong thư mục `src/components/ui/`
+- Component layout (Navbar, Sidebar, Footer) đặt trong thư mục `src/components/layout/`
+- Custom hooks được đặt trong thư mục `src/components/hooks/`
+- Các hàm tiện ích được đặt trong thư mục `src/components/utils/`
+
+### Quản lý state
+
+- Redux được sử dụng cho quản lý state toàn cục
+- Redux slices được đặt trong thư mục `src/store/slices/`
+- Root reducer được đặt trong file `src/store/index.ts`
+
+### Routing
+
+- Routes được chia thành private và public
+- Private routes (`src/routes/privateRoutes.ts`) yêu cầu người dùng đã đăng nhập
+- Public routes (`src/routes/publicRoutes.ts`) không yêu cầu đăng nhập
+- App Router chính được đặt trong file `src/routes/index.tsx`
+
+### API Services
+
+- Các API services được đặt trong thư mục `src/services/`
+- Cấu hình Axios được đặt trong file `src/config/axios.ts`
+- Mỗi service nên tập trung vào một chức năng cụ thể (auth, user, etc.)
+
+### Biến môi trường
+
+- Biến môi trường được định nghĩa trong file `.env`
+- Các biến môi trường được load trong file `src/config/env.ts`
+
+### Styling
+
+- Tailwind CSS được sử dụng cho styling
+- Cấu hình Tailwind được đặt trong file `tailwind.config.js`
+- Theme (light/dark) được quản lý trong file `src/config/theme.ts`
+
+
+
+
+

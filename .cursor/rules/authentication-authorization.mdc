@@ -1,0 +1,266 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# Authentication và Authorization
+
+Hướng dẫn cách triển khai xác thực và phân quyền trong dự án React.
+
+## Cấu trúc Authentication
+
+Authentication được triển khai sử dụng context API và custom hook để quản lý trạng thái đăng nhập và thông tin người dùng.
+
+### AuthContext
+
+```typescript
+// src/contexts/AuthContext.tsx
+import React, { createContext, useContext, useState, useEffect } from 'react';
+import { authService } from '@services/authService';
+import type { User, AuthState } from '@types/auth';
+
+interface AuthContextType {
+  user: User | null;
+  isAuthenticated: boolean;
+  isLoading: boolean;
+  login: (email: string, password: string) => Promise<void>;
+  logout: () => Promise<void>;
+  register: (userData: RegisterData) => Promise<void>;
+  error: string | null;
+}
+
+const AuthContext = createContext<AuthContextType | undefined>(undefined);
+
+export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const [authState, setAuthState] = useState<AuthState>({
+    user: null,
+    isAuthenticated: false,
+    isLoading: true,
+    error: null
+  });
+
+  useEffect(() => {
+    // Kiểm tra người dùng đã đăng nhập khi tải trang
+    const checkAuth = async () => {
+      try {
+        const user = await authService.getCurrentUser();
+        setAuthState({
+          user,
+          isAuthenticated: true,
+          isLoading: false,
+          error: null
+        });
+      } catch (error) {
+        setAuthState({
+          user: null,
+          isAuthenticated: false,
+          isLoading: false,
+          error: null
+        });
+      }
+    };
+
+    checkAuth();
+  }, []);
+
+  const login = async (email: string, password: string) => {
+    try {
+      setAuthState(prev => ({ ...prev, isLoading: true }));
+      const user = await authService.login(email, password);
+      setAuthState({
+        user,
+        isAuthenticated: true,
+        isLoading: false,
+        error: null
+      });
+    } catch (error) {
+      setAuthState({
+        user: null,
+        isAuthenticated: false,
+        isLoading: false,
+        error: error instanceof Error ? error.message : 'Login failed'
+      });
+    }
+  };
+
+  const logout = async () => {
+    try {
+      await authService.logout();
+      setAuthState({
+        user: null,
+        isAuthenticated: false,
+        isLoading: false,
+        error: null
+      });
+    } catch (error) {
+      setAuthState(prev => ({
+        ...prev,
+        error: error instanceof Error ? error.message : 'Logout failed'
+      }));
+    }
+  };
+
+  const register = async (userData: RegisterData) => {
+    // Implement register logic
+  };
+
+  const value = {
+    user: authState.user,
+    isAuthenticated: authState.isAuthenticated,
+    isLoading: authState.isLoading,
+    login,
+    logout,
+    register,
+    error: authState.error
+  };
+
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+};
+
+export const useAuth = () => {
+  const context = useContext(AuthContext);
+  if (context === undefined) {
+    throw new Error('useAuth must be used within an AuthProvider');
+  }
+  return context;
+};
+```
+
+### Protected Routes
+
+Sử dụng bảo vệ route để ngăn người dùng chưa xác thực truy cập vào các trang cần xác thực.
+
+```typescript
+// src/routes/PrivateRoute.tsx
+import { Navigate, Outlet } from 'react-router-dom';
+import { useAuth } from '@hooks/useAuth';
+
+export const PrivateRoute = () => {
+  const { isAuthenticated, isLoading } = useAuth();
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  return isAuthenticated ? <Outlet /> : <Navigate to="/login" />;
+};
+```
+
+## Authorization (Phân quyền)
+
+Phân quyền được triển khai dựa trên vai trò của người dùng (RBAC - Role-Based Access Control).
+
+### Role Types
+
+```typescript
+// src/types/auth.ts
+export type UserRole = 'admin' | 'user' | 'editor';
+
+export interface User {
+  id: string;
+  name: string;
+  email: string;
+  roles: UserRole[];
+  // Các thuộc tính khác
+}
+```
+
+### Permission Hook
+
+```typescript
+// src/hooks/usePermission.ts
+import { useAuth } from '@hooks/useAuth';
+
+export const usePermission = () => {
+  const { user } = useAuth();
+
+  const hasRole = (requiredRole: UserRole | UserRole[]) => {
+    if (!user) return false;
+    
+    const requiredRoles = Array.isArray(requiredRole) ? requiredRole : [requiredRole];
+    return requiredRoles.some(role => user.roles.includes(role));
+  };
+
+  const canAccess = (permission: string) => {
+    // Implement permission checking logic
+    // Example: check if user has specific permission based on roles
+    return true;
+  };
+
+  return { hasRole, canAccess };
+};
+```
+
+### Role-Based Components
+
+```typescript
+// src/components/RoleBasedComponent.tsx
+import React from 'react';
+import { usePermission } from '@hooks/usePermission';
+import type { UserRole } from '@types/auth';
+
+interface RoleBasedComponentProps {
+  requiredRoles: UserRole | UserRole[];
+  children: React.ReactNode;
+  fallback?: React.ReactNode;
+}
+
+export const RoleBasedComponent: React.FC<RoleBasedComponentProps> = ({
+  requiredRoles,
+  children,
+  fallback = null
+}) => {
+  const { hasRole } = usePermission();
+  
+  if (hasRole(requiredRoles)) {
+    return <>{children}</>;
+  }
+  
+  return <>{fallback}</>;
+};
+```
+
+## Sử dụng trong ứng dụng
+
+```typescript
+// Trong App.tsx hoặc root component
+import { AuthProvider } from '@/contexts/AuthContext';
+import { Router } from '@routes/index';
+
+const App = () => {
+  return (
+    <AuthProvider>
+      <Router />
+    </AuthProvider>
+  );
+};
+
+// Trong component sử dụng xác thực
+import { useAuth } from '@hooks/useAuth';
+import { RoleBasedComponent } from '@components/RoleBasedComponent';
+
+const Dashboard = () => {
+  const { user, logout } = useAuth();
+  
+  return (
+    <div>
+      <h1>Welcome, {user?.name}</h1>
+      <button onClick={logout}>Logout</button>
+      
+      <RoleBasedComponent requiredRoles="admin">
+        <AdminPanel />
+      </RoleBasedComponent>
+    </div>
+  );
+};
+```
+
+## Bảo mật
+
+1. Lưu trữ token trong HttpOnly cookie hoặc localStorage (với chú ý về XSS)
+2. Implement CSRF protection
+3. Không lưu trữ thông tin nhạy cảm trong state hoặc localStorage
+4. Luôn validate dữ liệu từ người dùng, cả frontend và backend
+
+
+

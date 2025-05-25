@@ -1,0 +1,107 @@
+{
+  "personal": {
+    "name": "Nguyễn Đức Việt",
+    "title": "Web Developer",
+    "bio": "Tôi là một lập trình viên web đam mê sáng tạo và giải quyết vấn đề.",
+    "about": "Tôi có hơn 5 năm kinh nghiệm trong lĩnh vực phát triển web, chuyên về JavaScript và các framework hiện đại. Tôi luôn tìm kiếm những thách thức mới để nâng cao kỹ năng và mở rộng kiến thức của mình.",
+    "birthday": "25/07/2002",
+    "location": "Hà Nội, Việt Nam",
+    "email": "ducvietaz420@gmail.com",
+    "phone": "+84 975325158",
+    "address": "9 ngõ 326 Nguyễn Trãi , Thanh Xuân Trung , Thanh Xuân, Hà Nội",
+    "avatar": "assets/images/image-1748097865815-503246331.jpg",
+    "aboutImage": "assets/images/image-1748097869560-25935556.jpg",
+    "facebook": "https://facebook.com/example",
+    "twitter": "https://twitter.com/example",
+    "instagram": "https://instagram.com/example",
+    "linkedin": "https://linkedin.com/in/example",
+    "github": "https://github.com/example"
+  },
+  "skills": [
+    {
+      "name": "HTML/CSS",
+      "level": 95
+    },
+    {
+      "name": "JavaScript",
+      "level": 90
+    },
+    {
+      "name": "React",
+      "level": 85
+    },
+    {
+      "name": "Node.js",
+      "level": 80
+    },
+    {
+      "name": "PHP",
+      "level": 75
+    },
+    {
+      "name": "Python",
+      "level": 70
+    }
+  ],
+  "experience": [
+    {
+      "title": "Senior Web Developer",
+      "company": "Công ty ABC",
+      "startDate": "01/2020",
+      "endDate": "",
+      "description": "Phát triển và duy trì các ứng dụng web sử dụng React và Node.js. Tối ưu hóa hiệu suất và cải thiện trải nghiệm người dùng."
+    },
+    {
+      "title": "Web Developer",
+      "company": "Công ty XYZ",
+      "startDate": "06/2017",
+      "endDate": "12/2019",
+      "description": "Xây dựng các trang web responsive và tích hợp API. Làm việc với team để cải thiện quy trình phát triển."
+    },
+    {
+      "title": "Intern",
+      "company": "Công ty DEF",
+      "startDate": "01/2017",
+      "endDate": "05/2017",
+      "description": "Hỗ trợ team phát triển trong việc xây dựng và kiểm thử các tính năng website."
+    }
+  ],
+  "portfolio": [
+    {
+      "title": "E-commerce Website",
+      "category": "web",
+      "description": "Website thương mại điện tử với đầy đủ tính năng như giỏ hàng, thanh toán, quản lý sản phẩm và đơn hàng.",
+      "image": "assets/images/image-1748099645317-452820875.jpg",
+      "technologies": "React, Node.js, MongoDB, Express",
+      "demoLink": "https://example.com/demo1",
+      "githubLink": "https://github.com/example/project1"
+    },
+    {
+      "title": "Task Management App",
+      "category": "web",
+      "description": "Ứng dụng quản lý công việc với tính năng kéo thả, nhắc nhở và phân công nhiệm vụ.",
+      "image": "assets/images/project-2.jpg",
+      "technologies": "Vue.js, Firebase, Vuetify",
+      "demoLink": "https://example.com/demo2",
+      "githubLink": "https://github.com/example/project2"
+    },
+    {
+      "title": "Mobile Weather App",
+      "category": "mobile",
+      "description": "Ứng dụng dự báo thời tiết cho điện thoại di động với giao diện trực quan và cập nhật theo thời gian thực.",
+      "image": "assets/images/project-3.jpg",
+      "technologies": "React Native, Redux, Weather API",
+      "demoLink": "https://example.com/demo3",
+      "githubLink": "https://github.com/example/project3"
+    },
+    {
+      "title": "Portfolio Website",
+      "category": "design",
+      "description": "Website portfolio cá nhân với nhiều hiệu ứng animation và tương tác người dùng.",
+      "image": "assets/images/project-4.jpg",
+      "technologies": "HTML, CSS, JavaScript, GSAP",
+      "demoLink": "https://example.com/demo4",
+      "githubLink": "https://github.com/example/project4"
+    }
+  ]
+}

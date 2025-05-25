@@ -1,0 +1,191 @@
+/**
+ * CSS cho các hiệu ứng đặc biệt
+ */
+
+/* Hiệu ứng Clean Slider với Curved Background */
+.hero-curve {
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 100px;
+    background-color: var(--bg-color);
+    clip-path: ellipse(50% 50% at 50% 100%);
+    z-index: 1;
+    pointer-events: none;
+}
+
+.section-curve {
+    position: absolute;
+    bottom: -50px;
+    left: 0;
+    width: 100%;
+    height: 100px;
+    background-color: var(--bg-color);
+    clip-path: ellipse(50% 50% at 50% 100%);
+    z-index: 5;
+    pointer-events: none;
+}
+
+.section {
+    position: relative;
+    overflow: visible;
+}
+
+/* Hiệu ứng Shattering (vỡ) */
+.avatar-shatter-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 10;
+}
+
+.avatar-fragment {
+    position: absolute;
+    width: 33.33%;
+    height: 33.33%;
+    background-size: cover;
+    pointer-events: none;
+}
+
+/* Hiệu ứng hover cho portfolio items */
+.portfolio-item {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    overflow: hidden;
+    backface-visibility: hidden;
+    transform-style: preserve-3d;
+    perspective: 1000px;
+    position: relative;
+    border-radius: 10px;
+    margin-bottom: 30px;
+}
+
+.portfolio-item:hover {
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+    transform: translateY(-5px);
+}
+
+.portfolio-item img {
+    transition: transform 0.5s ease, filter 0.5s ease;
+    width: 100%;
+    border-radius: 10px;
+}
+
+.portfolio-item:hover img {
+    transform: scale(1.05);
+    filter: brightness(1.1);
+}
+
+/* Hiệu ứng overlay cho portfolio */
+.portfolio-image {
+    position: relative;
+    overflow: hidden;
+    border-radius: 10px;
+}
+
+.portfolio-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 123, 255, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    border-radius: 10px;
+}
+
+.portfolio-item:hover .portfolio-overlay {
+    opacity: 1;
+}
+
+.overlay-content {
+    text-align: center;
+    color: white;
+    padding: 20px;
+    transform: translateY(20px);
+    transition: transform 0.3s ease;
+}
+
+.portfolio-item:hover .overlay-content {
+    transform: translateY(0);
+}
+
+.overlay-content h4 {
+    margin: 0 0 10px 0;
+    font-size: 1.5rem;
+}
+
+.overlay-content p {
+    margin: 0;
+    font-size: 1rem;
+}
+
+/* Hiệu ứng chuyển động section */
+section {
+    position: relative;
+    z-index: 1;
+}
+
+.about-section, .skills-section, .experience-section, .portfolio-section, .contact-section {
+    position: relative;
+    z-index: 2;
+    overflow: visible;
+}
+
+/* Tạo chuyển động hình sóng cho section */
+.wave-divider {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
+}
+
+.wave-divider svg {
+    position: relative;
+    display: block;
+    width: calc(100% + 1.3px);
+    height: 70px;
+}
+
+.wave-divider .shape-fill {
+    fill: var(--primary-color);
+    opacity: 0.1;
+}
+
+/* Hiệu ứng shine cho các card */
+.shine-effect {
+    position: relative;
+    overflow: hidden;
+}
+
+.shine-effect::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.3) 100%);
+    transform: skewX(-25deg);
+    transition: all 0.75s;
+    z-index: 1;
+}
+
+.shine-effect:hover::before {
+    animation: shine 1.5s;
+}
+
+@keyframes shine {
+    100% {
+        left: 125%;
+    }
+}

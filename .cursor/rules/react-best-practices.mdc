@@ -1,0 +1,116 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# React Best Practices
+
+Đây là các quy tắc và best practices khi phát triển ứng dụng React trong dự án này.
+
+## Nguyên tắc chung
+
+1. Tuân thủ nguyên tắc DRY (Don't Repeat Yourself)
+2. Ưu tiên functional components thay vì class components
+3. Sử dụng TypeScript cho tất cả các file
+4. Tránh sử dụng kiểu `any` trong TypeScript
+
+## Component
+
+1. Chia nhỏ component để dễ bảo trì và tái sử dụng
+2. Đặt tên component theo Pascal case (VD: `UserProfile`, `Button`)
+3. Tách biệt UI và logic:
+   - Logic xử lý dữ liệu nên đặt trong custom hooks
+   - UI render nên đặt trong components
+
+```typescript
+// Ví dụ về component tốt
+import React from 'react';
+import { useAuth } from '@hooks/useAuth';
+import { Button } from '@ui/Button';
+
+interface ProfileProps {
+  userId: string;
+}
+
+export const Profile: React.FC<ProfileProps> = ({ userId }) => {
+  const { user, isLoading } = useAuth(userId);
+
+  if (isLoading) return <div>Loading...</div>;
+  
+  return (
+    <div className="p-4 rounded-lg shadow-md">
+      <h2 className="text-xl font-bold">{user.name}</h2>
+      <p className="text-gray-600">{user.email}</p>
+      <Button variant="primary">Edit Profile</Button>
+    </div>
+  );
+};
+```
+
+## State Management
+
+1. Sử dụng local state (`useState`) cho state đơn giản của component
+2. Sử dụng context API cho state được chia sẻ giữa một vài component
+3. Sử dụng Redux cho global state phức tạp
+4. Tổ chức Redux theo mô hình slices (Redux Toolkit)
+
+## Custom Hooks
+
+1. Tạo custom hooks cho các logic có thể tái sử dụng
+2. Đặt tên hook bắt đầu bằng `use` (VD: `useAuth`, `useForm`)
+3. Tách biệt logic xử lý dữ liệu và các side-effects
+
+```typescript
+// Ví dụ về custom hook tốt
+import { useState, useEffect } from 'react';
+import { userService } from '@services/userService';
+import type { User } from '@types/user';
+
+export const useUser = (userId: string) => {
+  const [user, setUser] = useState<User | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [error, setError] = useState<Error | null>(null);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        setIsLoading(true);
+        const userData = await userService.getUser(userId);
+        setUser(userData);
+      } catch (err) {
+        setError(err instanceof Error ? err : new Error('Unknown error'));
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchUser();
+  }, [userId]);
+
+  return { user, isLoading, error };
+};
+```
+
+## API và Services
+
+1. Tất cả API calls nên được tập trung trong services
+2. Xử lý lỗi một cách nhất quán
+3. Sử dụng Axios instance đã được cấu hình
+4. Implement caching khi cần thiết
+
+## Styling
+
+1. Sử dụng Tailwind CSS cho styling
+2. Tạo các utility classes có thể tái sử dụng
+3. Tuân thủ design system đã xác định
+4. Đảm bảo responsive trên tất cả thiết bị
+
+## Performance
+
+1. Sử dụng React.memo() cho components render nhiều
+2. Tối ưu re-renders với useMemo và useCallback
+3. Lazy load components và routes
+4. Tối ưu bundle size
+
+
+

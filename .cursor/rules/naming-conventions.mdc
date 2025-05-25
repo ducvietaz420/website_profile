@@ -1,0 +1,157 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# Quy ước đặt tên
+
+Hướng dẫn cách đặt tên cho tập tin, thư mục và các thành phần trong dự án React.
+
+## Tập tin
+
+1. **Components**: Sử dụng PascalCase
+   - `Button.tsx`
+   - `UserProfile.tsx`
+   - `NavBar.tsx`
+
+2. **Custom Hooks**: Sử dụng camelCase, bắt đầu bằng `use`
+   - `useAuth.ts`
+   - `useForm.ts`
+   - `useLocalStorage.ts`
+
+3. **Contexts**: Sử dụng PascalCase, kết thúc bằng `Context`
+   - `AuthContext.tsx`
+   - `ThemeContext.tsx`
+
+4. **Services/Utils**: Sử dụng camelCase
+   - `authService.ts`
+   - `formatUtils.ts`
+   - `apiClient.ts`
+
+5. **Types/Interfaces**: Sử dụng PascalCase
+   - `User.ts` (cho file định nghĩa type)
+   - Trong files khác, đặt tên interface bắt đầu với `I` hoặc kết thúc với `Type`
+     ```typescript
+     interface IUser {}
+     // hoặc
+     interface UserType {}
+     ```
+     
+6. **Redux**: Sử dụng camelCase, kết thúc bằng `Slice` cho slice files
+   - `authSlice.ts`
+   - `userSlice.ts`
+
+## Thư mục
+
+1. **Component Directories**: Sử dụng kebab-case cho thư mục chứa nhiều components
+   - `src/components/form-elements/`
+   - `src/components/data-display/`
+
+2. **Feature Directories**: Sử dụng kebab-case
+   - `src/features/user-management/`
+   - `src/features/authentication/`
+
+3. **Page Directories**: Sử dụng PascalCase
+   - `src/pages/Home/`
+   - `src/pages/Dashboard/`
+   - `src/pages/UserProfile/`
+
+## Cấu trúc Component
+
+Đối với một component phức tạp, tổ chức theo cấu trúc thư mục như sau:
+
+```
+Button/
+├── index.tsx      # Export component
+├── Button.tsx     # Component chính
+├── Button.test.tsx # Tests
+├── ButtonTypes.ts # Types/interfaces
+└── styles.ts      # Styles nếu không sử dụng Tailwind
+```
+
+## Biến số
+
+1. **Props**: Sử dụng camelCase
+   ```typescript
+   interface ButtonProps {
+     variant: string;
+     isDisabled: boolean;
+     onClick: () => void;
+   }
+   ```
+
+2. **State**: Sử dụng camelCase
+   ```typescript
+   const [isLoading, setIsLoading] = useState(false);
+   const [userData, setUserData] = useState<UserData | null>(null);
+   ```
+
+3. **Constants**: Sử dụng UPPER_SNAKE_CASE cho hằng số toàn cục
+   ```typescript
+   const API_URL = 'https://api.example.com';
+   const MAX_RETRIES = 3;
+   ```
+
+## Functions
+
+1. **Event Handlers**: Bắt đầu với `handle` hoặc `on`
+   ```typescript
+   const handleSubmit = (e: React.FormEvent) => { /* ... */ };
+   const onUserClick = (userId: string) => { /* ... */ };
+   ```
+
+2. **Async Functions**: Thể hiện rõ tính chất bất đồng bộ trong tên
+   ```typescript
+   const fetchUserData = async () => { /* ... */ };
+   const loadProducts = async () => { /* ... */ };
+   ```
+
+## Imports và Exports
+
+1. Ưu tiên sử dụng named exports thay vì default exports
+   ```typescript
+   // Tốt
+   export const Button = () => { /* ... */ };
+   
+   // Tránh
+   const Button = () => { /* ... */ };
+   export default Button;
+   ```
+
+2. Sử dụng barrel exports (index.ts) để xuất các components từ một thư mục
+   ```typescript
+   // src/components/ui/index.ts
+   export * from './Button';
+   export * from './Input';
+   export * from './Card';
+   ```
+
+3. Sắp xếp imports theo thứ tự:
+   ```typescript
+   // 1. React và các thư viện bên ngoài
+   import React, { useState, useEffect } from 'react';
+   import { useNavigate } from 'react-router-dom';
+   
+   // 2. Các alias đường dẫn theo thứ tự alphabet
+   import { Button } from '@ui/Button';
+   import { useAuth } from '@hooks/useAuth';
+   import { userService } from '@services/userService';
+   
+   // 3. Các import tương đối
+   import { SomeComponent } from './SomeComponent';
+   import styles from './styles.module.css';
+   ```
+
+4. Luôn sử dụng đường dẫn alias cho các import giữa các thư mục khác nhau
+   ```typescript
+   // Tốt
+   import { Button } from '@ui/Button';
+   import { useAuth } from '@hooks/useAuth';
+   
+   // Tránh
+   import { Button } from '../../components/ui/Button';
+   import { useAuth } from '../../components/hooks/useAuth';
+   ```
+
+
+

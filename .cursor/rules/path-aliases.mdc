@@ -1,0 +1,88 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# Cấu hình đường dẫn alias
+
+Dự án sử dụng đường dẫn alias để giúp import dễ dàng và tránh các đường dẫn tương đối phức tạp.
+
+## Cấu hình trong tsconfig.json
+
+```json
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"],
+      "@components/*": ["./src/components/*"],
+      "@pages/*": ["./src/pages/*"],
+      "@hooks/*": ["./src/components/hooks/*"],
+      "@utils/*": ["./src/components/utils/*"],
+      "@services/*": ["./src/services/*"],
+      "@store/*": ["./src/store/*"],
+      "@types/*": ["./src/types/*"],
+      "@assets/*": ["./src/assets/*"],
+      "@config/*": ["./src/config/*"],
+      "@routes/*": ["./src/routes/*"],
+      "@ui/*": ["./src/components/ui/*"],
+      "@layout/*": ["./src/components/layout/*"]
+    }
+  }
+}
+```
+
+## Cấu hình trong vite.config.ts
+
+```typescript
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+import path from 'path';
+
+export default defineConfig({
+  plugins: [react()],
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, './src'),
+      '@components': path.resolve(__dirname, './src/components'),
+      '@pages': path.resolve(__dirname, './src/pages'),
+      '@hooks': path.resolve(__dirname, './src/components/hooks'),
+      '@utils': path.resolve(__dirname, './src/components/utils'),
+      '@services': path.resolve(__dirname, './src/services'),
+      '@store': path.resolve(__dirname, './src/store'),
+      '@types': path.resolve(__dirname, './src/types'),
+      '@assets': path.resolve(__dirname, './src/assets'),
+      '@config': path.resolve(__dirname, './src/config'),
+      '@routes': path.resolve(__dirname, './src/routes'),
+      '@ui': path.resolve(__dirname, './src/components/ui'),
+      '@layout': path.resolve(__dirname, './src/components/layout')
+    }
+  }
+});
+```
+
+## Sử dụng alias trong code
+
+Thay vì sử dụng đường dẫn tương đối:
+
+```typescript
+// Không nên
+import { Button } from '../../../components/ui/Button';
+import { useAuth } from '../../../components/hooks/useAuth';
+```
+
+Sử dụng đường dẫn alias:
+
+```typescript
+// Nên
+import { Button } from '@ui/Button';
+import { useAuth } from '@hooks/useAuth';
+```
+
+## Quy ước sử dụng alias
+
+1. Luôn sử dụng alias cho các import giữa các thư mục khác nhau
+2. Có thể sử dụng đường dẫn tương đối cho các import trong cùng thư mục
+3. Ưu tiên sử dụng alias ngắn nhất có thể (ví dụ: `@ui/Button` thay vì `@components/ui/Button`)
+4. Đối với các file trong thư mục gốc của src, sử dụng alias `@/`
+

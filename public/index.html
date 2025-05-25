@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Cá Nhân</title>
+    <meta name="description" content="Website giới thiệu profile cá nhân với giao diện hiện đại và hiệu ứng 3D">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="assets/icons/favicon.ico" type="image/x-icon">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- JavaScript libraries -->
+    <script src="https://unpkg.com/three@0.132.2/build/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.11.4/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.11.4/dist/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/CustomEase.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    
+    <!-- Three.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/0.151.3/three.min.js" defer></script>
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/effects.css">
+    
+    <!-- JavaScript -->
+    <script src="js/data-manager.js" defer></script>
+    <script src="js/animations.js" defer></script>
+    <script src="js/main.js" defer></script>
+</head>
+<body>
+    <!-- Loader -->
+    <div class="loader-container">
+        <div class="loader">
+            <div class="cube">
+                <div class="face front"></div>
+                <div class="face back"></div>
+                <div class="face right"></div>
+                <div class="face left"></div>
+                <div class="face top"></div>
+                <div class="face bottom"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <a href="/">
+                    <span>Portfolio</span>
+                </a>
+            </div>
+            <nav class="nav">
+                <ul>
+                    <li><a href="#home" class="active">Trang chủ</a></li>
+                    <li><a href="#about">Giới thiệu</a></li>
+                    <li><a href="#skills">Kỹ năng</a></li>
+                    <li><a href="#experience">Kinh nghiệm</a></li>
+                    <li><a href="#portfolio">Dự án</a></li>
+                    <li><a href="#contact">Liên hệ</a></li>
+                </ul>
+            </nav>
+            <div class="menu-toggle">
+                <i class="fa-solid fa-bars"></i>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero-section">
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="name">
+                    <span class="greeting">Xin chào, tôi là</span>
+                    <span class="full-name" data-name></span>
+                </h1>
+                <h2 class="title" data-title></h2>
+                <p class="bio" data-bio></p>
+                <div class="cta-buttons">
+                    <a href="#contact" class="btn btn-primary">Liên hệ</a>
+                    <a href="#portfolio" class="btn btn-secondary">Xem dự án</a>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="hero-bg"></div>
+                <div class="hero-avatar" data-avatar></div>
+                <div id="particles-container"></div>
+            </div>
+        </div>
+        <div class="scroll-indicator">
+            <div class="mouse">
+                <div class="wheel"></div>
+            </div>
+            <div class="arrows">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Về tôi</h2>
+                <div class="underline"></div>
+            </div>
+            <div class="about-content">
+                <div class="about-image">
+                    <div class="image-wrapper">
+                        <img src="" alt="Hình ảnh cá nhân" data-about-image>
+                        <div class="image-border"></div>
+                    </div>
+                </div>
+                <div class="about-text">
+                    <p data-about-text></p>
+                    <div class="about-details">
+                        <div class="detail-item">
+                            <i class="fa-solid fa-calendar"></i>
+                            <span data-birthday></span>
+                        </div>
+                        <div class="detail-item">
+                            <i class="fa-solid fa-location-dot"></i>
+                            <span data-location></span>
+                        </div>
+                        <div class="detail-item">
+                            <i class="fa-solid fa-envelope"></i>
+                            <span data-email></span>
+                        </div>
+                        <div class="detail-item">
+                            <i class="fa-solid fa-phone"></i>
+                            <span data-phone></span>
+                        </div>
+                    </div>
+                    <div class="social-links">
+                        <a href="#" class="social-link" data-facebook>
+                            <i class="fa-brands fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="social-link" data-twitter>
+                            <i class="fa-brands fa-twitter"></i>
+                        </a>
+                        <a href="#" class="social-link" data-instagram>
+                            <i class="fa-brands fa-instagram"></i>
+                        </a>
+                        <a href="#" class="social-link" data-linkedin>
+                            <i class="fa-brands fa-linkedin-in"></i>
+                        </a>
+                        <a href="#" class="social-link" data-github>
+                            <i class="fa-brands fa-github"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="skills-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Kỹ năng</h2>
+                <div class="underline"></div>
+            </div>
+            <div class="skills-content">
+                <div class="skills-text">
+                    <h3>Các kỹ năng chuyên môn</h3>
+                    <p>Dưới đây là những kỹ năng mà tôi đã tích lũy và phát triển qua các dự án và kinh nghiệm làm việc.</p>
+                </div>
+                <div class="skills-list" id="skills-container">
+                    <!-- Skills will be added dynamically -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience Section -->
+    <section id="experience" class="experience-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Kinh nghiệm</h2>
+                <div class="underline"></div>
+            </div>
+            <div class="timeline-container">
+                <div class="timeline" id="experience-timeline">
+                    <!-- Experience timeline will be added dynamically -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio Section -->
+    <section id="portfolio" class="portfolio-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Dự án</h2>
+                <div class="underline"></div>
+            </div>
+            <div class="portfolio-filter">
+                <button class="filter-btn active" data-filter="all">Tất cả</button>
+                <button class="filter-btn" data-filter="web">Web</button>
+                <button class="filter-btn" data-filter="mobile">Mobile</button>
+                <button class="filter-btn" data-filter="design">Design</button>
+                <button class="filter-btn" data-filter="other">Khác</button>
+            </div>
+            <div class="portfolio-grid" id="portfolio-container">
+                <!-- Portfolio items will be added dynamically -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Liên hệ</h2>
+                <div class="underline"></div>
+            </div>
+            <div class="contact-content">
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <div class="icon">
+                            <i class="fa-solid fa-envelope"></i>
+                        </div>
+                        <div class="info">
+                            <h3>Email</h3>
+                            <p data-contact-email></p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="icon">
+                            <i class="fa-solid fa-phone"></i>
+                        </div>
+                        <div class="info">
+                            <h3>Điện thoại</h3>
+                            <p data-contact-phone></p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="icon">
+                            <i class="fa-solid fa-location-dot"></i>
+                        </div>
+                        <div class="info">
+                            <h3>Địa chỉ</h3>
+                            <p data-contact-address></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="contact-form">
+                    <form id="contact-form">
+                        <div class="form-group">
+                            <input type="text" name="name" id="name" placeholder="Họ và tên" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" name="email" id="email" placeholder="Email" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" name="subject" id="subject" placeholder="Tiêu đề" required>
+                        </div>
+                        <div class="form-group">
+                            <textarea name="message" id="message" placeholder="Nội dung tin nhắn" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Gửi tin nhắn</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <h3>Portfolio</h3>
+                    <p>Website giới thiệu profile cá nhân với giao diện hiện đại và hiệu ứng 3D</p>
+                </div>
+                <div class="footer-links">
+                    <h3>Liên kết nhanh</h3>
+                    <ul>
+                        <li><a href="#home">Trang chủ</a></li>
+                        <li><a href="#about">Giới thiệu</a></li>
+                        <li><a href="#skills">Kỹ năng</a></li>
+                        <li><a href="#experience">Kinh nghiệm</a></li>
+                        <li><a href="#portfolio">Dự án</a></li>
+                        <li><a href="#contact">Liên hệ</a></li>
+                    </ul>
+                </div>
+                <div class="footer-social">
+                    <h3>Mạng xã hội</h3>
+                    <div class="social-links">
+                        <a href="#" class="social-link" data-facebook-footer>
+                            <i class="fa-brands fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="social-link" data-twitter-footer>
+                            <i class="fa-brands fa-twitter"></i>
+                        </a>
+                        <a href="#" class="social-link" data-instagram-footer>
+                            <i class="fa-brands fa-instagram"></i>
+                        </a>
+                        <a href="#" class="social-link" data-linkedin-footer>
+                            <i class="fa-brands fa-linkedin-in"></i>
+                        </a>
+                        <a href="#" class="social-link" data-github-footer>
+                            <i class="fa-brands fa-github"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; <span id="current-year"></span> - Profile Cá Nhân. Tất cả các quyền được bảo lưu.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Project Details Modal -->
+    <div class="modal" id="project-modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div class="modal-body">
+                <div class="project-details">
+                    <h2 id="modal-title"></h2>
+                    <div class="project-image">
+                        <img id="modal-image" src="" alt="Project Image">
+                    </div>
+                    <div class="project-info">
+                        <h3>Mô tả dự án</h3>
+                        <p id="modal-description"></p>
+                        <h3>Công nghệ sử dụng</h3>
+                        <ul id="modal-technologies"></ul>
+                        <div class="project-links">
+                            <a href="#" id="modal-demo" class="btn btn-primary" target="_blank">Xem demo</a>
+                            <a href="#" id="modal-github" class="btn btn-secondary" target="_blank">Github</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
