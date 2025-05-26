@@ -133,7 +133,11 @@ section {
     z-index: 1;
 }
 
-.about-section, .skills-section, .experience-section, .portfolio-section, .contact-section {
+.about-section,
+.skills-section,
+.experience-section,
+.portfolio-section,
+.contact-section {
     position: relative;
     z-index: 2;
     overflow: visible;
@@ -174,7 +178,7 @@ section {
     left: -100%;
     width: 50%;
     height: 100%;
-    background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.3) 100%);
+    background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.3) 100%);
     transform: skewX(-25deg);
     transition: all 0.75s;
     z-index: 1;
