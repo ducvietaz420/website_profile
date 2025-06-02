@@ -105,7 +105,7 @@ function loadProfileData() {
             fillPersonalForm(data.personal);
             fillSkillsList(data.skills);
             fillExperienceList(data.experience);
-            fillPortfolioList(data.portfolio);
+            fillEventsList(data.events);
         })
         .catch(error => {
             console.error('Error loading profile data:', error);
@@ -223,42 +223,7 @@ function fillExperienceList(experiences) {
     initExperienceItemEvents();
 }
 
-/**
- * Điền danh sách portfolio
- * @param {Array} portfolioItems Danh sách dự án
- */
-function fillPortfolioList(portfolioItems) {
-    const portfolioList = document.getElementById('portfolio-list');
-    portfolioList.innerHTML = '';
-    
-    portfolioItems.forEach((item, index) => {
-        const portfolioItem = document.createElement('div');
-        portfolioItem.className = 'portfolio-item';
-        
-        portfolioItem.innerHTML = `
-            <div class="portfolio-item-image">
-                <img src="${item.image || 'assets/images/placeholder.jpg'}" alt="${item.title}">
-            </div>
-            <div class="portfolio-item-content">
-                <h3 class="portfolio-item-title">${item.title}</h3>
-                <span class="portfolio-item-category">${getCategoryLabel(item.category)}</span>
-                <div class="portfolio-item-actions">
-                    <button type="button" class="edit-btn" data-index="${index}">
-                        <i class="fa-solid fa-edit"></i>
-                    </button>
-                    <button type="button" class="delete-btn" data-index="${index}">
-                        <i class="fa-solid fa-trash"></i>
-                    </button>
-                </div>
-            </div>
-        `;
-        
-        portfolioList.appendChild(portfolioItem);
-    });
-    
-    // Khởi tạo sự kiện cho các nút chỉnh sửa và xóa
-    initPortfolioItemEvents();
-}
+// fillEventsList function is now in admin_events.js
 
 /**
  * Khởi tạo các event listeners

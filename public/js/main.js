@@ -21,8 +21,8 @@ function initWebsite() {
     // Khởi tạo scroll indicator
     initScrollIndicator();
 
-    // Khởi tạo portfolio filter
-    initPortfolioFilter();
+    // Khởi tạo events filter
+    initEventsFilter();
 
     // Khởi tạo modal
     initModal();
@@ -51,10 +51,10 @@ function loadProfileData() {
                 console.error('Experience data is missing or not an array');
             }
 
-            if (data.portfolio && Array.isArray(data.portfolio)) {
-                updatePortfolio(data.portfolio);
+            if (data.events && Array.isArray(data.events)) {
+                updateEvents(data.events);
             } else {
-                console.error('Portfolio data is missing or not an array');
+                console.error('Events data is missing or not an array');
             }
         })
         .catch(error => {
@@ -271,137 +271,101 @@ function updateExperience(experiences) {
 }
 
 /**
- * Cập nhật phần portfolio
- * @param {Array} portfolioItems Danh sách dự án
+ * Cập nhật phần events
+ * @param {Array} eventsItems Danh sách sự kiện
  */
-function updatePortfolio(portfolioItems) {
-    const portfolioContainer = document.getElementById('portfolio-container');
-    if (!portfolioContainer) return;
+function updateEvents(eventsItems) {
+    const eventsContainer = document.getElementById('events-container');
+    if (!eventsContainer) return;
 
     // Xóa nội dung cũ
-    portfolioContainer.innerHTML = '';
+    eventsContainer.innerHTML = '';
 
-    console.log('Cập nhật portfolio:', portfolioItems); // Log để debug
+    console.log('Cập nhật events:', eventsItems); // Log để debug
 
-    // Thêm các dự án mới
-    portfolioItems.forEach(item => {
-        const portfolioItem = document.createElement('div');
-        portfolioItem.className = 'portfolio-item shine-effect';
-        portfolioItem.setAttribute('data-category', item.category);
+    // Thêm các sự kiện mới
+    eventsItems.forEach(item => {
+        const eventItem = document.createElement('div');
+        eventItem.className = 'event-item shine-effect';
+        eventItem.setAttribute('data-category', item.category);
 
-        // Chuẩn bị danh sách công nghệ
-        const techList = item.technologies ? item.technologies.split(',').map(tech => tech.trim()) : [];
+        // Chuẩn bị danh sách dịch vụ
+        const servicesList = item.services ? item.services.split(',').map(service => service.trim()) : [];
 
-        portfolioItem.innerHTML = `
-            <div class="portfolio-image">
+        eventItem.innerHTML = `
+            <div class="event-image">
                 <img src="${item.image || 'assets/images/placeholder.jpg'}" alt="${item.title}">
-                <div class="portfolio-overlay">
-                    <div class="overlay-content">
-                        <h4>${item.title}</h4>
-                        <p>${getCategoryLabel(item.category)}</p>
-                    </div>
-                </div>
             </div>
-            <div class="portfolio-info">
-                <span class="portfolio-category">${getCategoryLabel(item.category)}</span>
+            <div class="event-info">
+                <span class="event-category">${getCategoryLabel(item.category)}</span>
                 <h3>${item.title}</h3>
-                <p>${truncateText(item.description, 100)}</p>
-                <div class="portfolio-buttons">
-                    <button class="btn btn-primary view-project" data-id="${portfolioItems.indexOf(item)}">Chi tiết</button>
+                <p class="event-description">${truncateText(item.description, 120)}</p>
+                <div class="event-meta">
+                    <span class="event-budget">${item.budget}</span>
+                    <span class="event-duration">${item.duration}</span>
                 </div>
             </div>
         `;
 
-        portfolioContainer.appendChild(portfolioItem);
+        // Thêm event listener cho click vào card
+        eventItem.addEventListener('click', () => {
+            const eventsData = dataManager.getData().events;
+            const event = eventsData[eventsItems.indexOf(item)];
+            if (event) {
+                openEventModal(event);
+            }
+        });
+
+        eventsContainer.appendChild(eventItem);
     });
 
-    // Nếu không có dự án nào, hiển thị thông báo
-    if (portfolioItems.length === 0) {
-        portfolioContainer.innerHTML = `
+    // Nếu không có sự kiện nào, hiển thị thông báo
+    if (eventsItems.length === 0) {
+        eventsContainer.innerHTML = `
             <div class="no-items-message">
-                <p>Chưa có dự án nào được thêm vào.</p>
+                <p>Chưa có sự kiện nào được thêm vào.</p>
             </div>
         `;
     }
-
-    // Thêm wave divider
-    const waveDiv = document.createElement('div');
-    waveDiv.className = 'wave-divider';
-    waveDiv.innerHTML = `
-        <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
-            <path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" opacity=".25" class="shape-fill"></path>
-            <path d="M0,0V15.81C13,36.92,27.64,56.86,47.69,72.05,99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V0Z" opacity=".5" class="shape-fill"></path>
-            <path d="M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z" class="shape-fill"></path>
-        </svg>
-    `;
-    portfolioContainer.parentNode.appendChild(waveDiv);
-
-    // Khởi tạo lại sự kiện cho các nút "Chi tiết"
-    initViewProjectButtons();
 }
 
 /**
- * Khởi tạo các sự kiện click cho các nút "Chi tiết" trong portfolio
+ * Mở modal chi tiết sự kiện
+ * @param {Object} event Thông tin sự kiện
  */
-function initViewProjectButtons() {
-    const viewButtons = document.querySelectorAll('.view-project');
-
-    viewButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            const projectId = button.getAttribute('data-id');
-            const portfolioData = dataManager.getData().portfolio;
-            const project = portfolioData[projectId];
-
-            if (project) {
-                openProjectModal(project);
-            }
-        });
-    });
-}
-
-/**
- * Mở modal chi tiết dự án
- * @param {Object} project Thông tin dự án
- */
-function openProjectModal(project) {
-    const modal = document.getElementById('project-modal');
+function openEventModal(event) {
+    const modal = document.getElementById('event-modal');
     const modalTitle = document.getElementById('modal-title');
     const modalImage = document.getElementById('modal-image');
     const modalDescription = document.getElementById('modal-description');
-    const modalTechnologies = document.getElementById('modal-technologies');
-    const modalDemo = document.getElementById('modal-demo');
-    const modalGithub = document.getElementById('modal-github');
+    const modalServices = document.getElementById('modal-services');
+    const modalBudget = document.getElementById('modal-budget');
+    const modalDuration = document.getElementById('modal-duration');
 
     // Cập nhật nội dung modal
-    modalTitle.textContent = project.title;
-    modalImage.src = project.image || 'assets/images/placeholder.jpg';
-    modalImage.alt = project.title;
-    modalDescription.textContent = project.description;
+    modalTitle.textContent = event.title;
+    modalImage.src = event.image || 'assets/images/placeholder.jpg';
+    modalImage.alt = event.title;
+    modalDescription.textContent = event.description;
 
-    // Cập nhật danh sách công nghệ
-    modalTechnologies.innerHTML = '';
-    if (project.technologies) {
-        const techList = project.technologies.split(',');
-        techList.forEach(tech => {
+    // Cập nhật danh sách dịch vụ
+    modalServices.innerHTML = '';
+    if (event.services) {
+        const servicesList = event.services.split(',');
+        servicesList.forEach(service => {
             const li = document.createElement('li');
-            li.textContent = tech.trim();
-            modalTechnologies.appendChild(li);
+            li.textContent = service.trim();
+            modalServices.appendChild(li);
         });
     }
 
-    // Cập nhật các liên kết
-    if (project.demoLink) {
-        modalDemo.href = project.demoLink;
-        modalDemo.style.display = 'inline-block';
-    } else {
-        modalDemo.style.display = 'none';
+    // Cập nhật thông tin chi tiết
+    if (modalBudget) {
+        modalBudget.textContent = event.budget || 'Liên hệ để biết thêm chi tiết';
     }
 
-    if (project.githubLink) {
-        modalGithub.href = project.githubLink;
-        modalGithub.style.display = 'inline-block';
-    } else {
-        modalGithub.style.display = 'none';
+    if (modalDuration) {
+        modalDuration.textContent = event.duration || 'Tùy thuộc vào quy mô sự kiện';
     }
 
     // Hiển thị modal
@@ -498,11 +462,11 @@ function initScrollIndicator() {
 }
 
 /**
- * Khởi tạo portfolio filter
+ * Khởi tạo events filter
  */
-function initPortfolioFilter() {
+function initEventsFilter() {
     const filterButtons = document.querySelectorAll('.filter-btn');
-    const portfolioItems = document.querySelectorAll('.portfolio-item');
+    const eventItems = document.querySelectorAll('.event-item');
 
     filterButtons.forEach(button => {
         button.addEventListener('click', () => {
@@ -515,8 +479,8 @@ function initPortfolioFilter() {
             // Lấy category được chọn
             const filterValue = button.getAttribute('data-filter');
 
-            // Lọc các portfolio items
-            portfolioItems.forEach(item => {
+            // Lọc các event items
+            eventItems.forEach(item => {
                 if (filterValue === 'all' || item.getAttribute('data-category') === filterValue) {
                     item.style.display = 'block';
                 } else {
@@ -531,7 +495,7 @@ function initPortfolioFilter() {
  * Khởi tạo modal
  */
 function initModal() {
-    const modal = document.getElementById('project-modal');
+    const modal = document.getElementById('event-modal');
     const closeModal = document.querySelector('.close-modal');
 
     if (closeModal && modal) {
@@ -612,9 +576,11 @@ function truncateText(text, maxLength) {
  */
 function getCategoryLabel(category) {
     const categoryMap = {
-        'web': 'Web',
-        'mobile': 'Mobile',
-        'design': 'Design',
+        'wedding': 'Đám cưới',
+        'corporate': 'Doanh nghiệp',
+        'entertainment': 'Giải trí',
+        'private': 'Riêng tư',
+        'fashion': 'Thời trang',
         'other': 'Khác'
     };
 

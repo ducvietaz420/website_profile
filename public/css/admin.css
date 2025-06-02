@@ -14,30 +14,30 @@
     --text-color: #333333;
     --bg-color: #f5f7fa;
     --border-color: #e9ecef;
-    
+
     /* Typography */
     --font-family: 'Poppins', sans-serif;
     --heading-weight: 600;
     --regular-weight: 400;
     --light-weight: 300;
-    
+
     /* Spacing */
     --spacing-xs: 0.25rem;
     --spacing-sm: 0.5rem;
     --spacing-md: 1rem;
     --spacing-lg: 1.5rem;
     --spacing-xl: 2.5rem;
-    
+
     /* Borders */
     --border-radius-sm: 4px;
     --border-radius-md: 8px;
     --border-radius-lg: 16px;
-    
+
     /* Transitions */
     --transition-fast: 0.2s ease;
     --transition-normal: 0.3s ease;
     --transition-slow: 0.5s ease;
-    
+
     /* Z-index layers */
     --z-back: -1;
     --z-normal: 1;
@@ -66,7 +66,12 @@ body {
     line-height: 1.6;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
     font-weight: var(--heading-weight);
     line-height: 1.3;
     margin-bottom: var(--spacing-md);
@@ -91,11 +96,15 @@ img {
     height: auto;
 }
 
-ul, ol {
+ul,
+ol {
     list-style: none;
 }
 
-button, input, textarea, select {
+button,
+input,
+textarea,
+select {
     font-family: inherit;
     font-size: inherit;
 }
@@ -696,23 +705,23 @@ button {
     .admin-content {
         flex-direction: column;
     }
-    
+
     .sidebar {
         width: 100%;
         margin-right: 0;
         margin-bottom: var(--spacing-lg);
     }
-    
+
     .admin-nav ul {
         flex-direction: row;
         flex-wrap: wrap;
     }
-    
+
     .form-row {
         flex-direction: column;
         gap: var(--spacing-md);
     }
-    
+
     .image-upload {
         flex-direction: column;
         align-items: flex-start;
@@ -723,16 +732,16 @@ button {
     html {
         font-size: 14px;
     }
-    
+
     .admin-header .container {
         flex-direction: column;
         gap: var(--spacing-sm);
     }
-    
+
     #portfolio-list {
         grid-template-columns: 1fr;
     }
-    
+
     .admin-main {
         padding: var(--spacing-lg);
     }

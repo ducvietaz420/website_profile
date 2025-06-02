@@ -1,30 +1,33 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quản lý Profile</title>
-    <meta name="description" content="Trang quản lý profile cá nhân">
-    
+    <title>Quản lý Event Organizer</title>
+    <meta name="description" content="Trang quản lý thông tin tổ chức sự kiện">
+
     <!-- Favicon -->
     <link rel="icon" href="assets/icons/favicon.ico" type="image/x-icon">
-    
+
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+
     <!-- CSS -->
     <link rel="stylesheet" href="css/admin.css">
-    
+
     <!-- JavaScript -->
     <script src="js/data-manager.js" defer></script>
     <script src="js/admin.js" defer></script>
     <script src="js/admin_experience.js" defer></script>
-    <script src="js/admin_portfolio.js" defer></script>
+    <script src="js/admin_events.js" defer></script>
     <script src="js/admin_upload.js" defer></script>
 </head>
+
 <body>
     <!-- Login Screen -->
     <div class="login-container" id="login-screen">
@@ -45,11 +48,11 @@
     <div class="admin-dashboard" id="admin-dashboard" style="display: none;">
         <header class="admin-header">
             <div class="container">
-                <h1>Quản lý Profile</h1>
+                <h1>Quản lý Event Organizer</h1>
                 <button id="logout-btn" class="btn btn-outline">Đăng xuất</button>
             </div>
         </header>
-        
+
         <div class="container">
             <div class="admin-content">
                 <aside class="sidebar">
@@ -58,12 +61,12 @@
                             <li><a href="#" data-section="personal" class="active">Thông tin cá nhân</a></li>
                             <li><a href="#" data-section="skills">Kỹ năng</a></li>
                             <li><a href="#" data-section="experience">Kinh nghiệm</a></li>
-                            <li><a href="#" data-section="portfolio">Dự án</a></li>
+                            <li><a href="#" data-section="events">Sự kiện</a></li>
                             <li><a href="#" data-section="preview">Xem trước</a></li>
                         </ul>
                     </nav>
                 </aside>
-                
+
                 <main class="admin-main">
                     <!-- Personal Information Section -->
                     <section id="personal-section" class="admin-section">
@@ -117,7 +120,8 @@
                                     </div>
                                     <div class="upload-controls">
                                         <input type="file" id="avatar-upload" accept="image/*">
-                                        <button type="button" class="btn btn-secondary" id="select-avatar">Chọn ảnh</button>
+                                        <button type="button" class="btn btn-secondary" id="select-avatar">Chọn
+                                            ảnh</button>
                                     </div>
                                 </div>
                                 <input type="hidden" id="avatar" name="avatar">
@@ -130,7 +134,8 @@
                                     </div>
                                     <div class="upload-controls">
                                         <input type="file" id="about-image-upload" accept="image/*">
-                                        <button type="button" class="btn btn-secondary" id="select-about-image">Chọn ảnh</button>
+                                        <button type="button" class="btn btn-secondary" id="select-about-image">Chọn
+                                            ảnh</button>
                                     </div>
                                 </div>
                                 <input type="hidden" id="about-image" name="aboutImage">
@@ -165,7 +170,7 @@
                             <button type="submit" class="btn btn-primary">Lưu thông tin</button>
                         </form>
                     </section>
-                    
+
                     <!-- Skills Section -->
                     <section id="skills-section" class="admin-section" style="display: none;">
                         <h2>Kỹ năng</h2>
@@ -201,7 +206,7 @@
                             <button type="button" class="btn btn-primary" id="save-skills">Lưu tất cả kỹ năng</button>
                         </div>
                     </section>
-                    
+
                     <!-- Experience Section -->
                     <section id="experience-section" class="admin-section" style="display: none;">
                         <h2>Kinh nghiệm</h2>
@@ -209,7 +214,8 @@
                             <div id="experience-list">
                                 <!-- Experience items will be added dynamically -->
                             </div>
-                            <button type="button" class="btn btn-secondary" id="add-experience">Thêm kinh nghiệm</button>
+                            <button type="button" class="btn btn-secondary" id="add-experience">Thêm kinh
+                                nghiệm</button>
                         </div>
                         <div class="experience-form-container" id="experience-form-container" style="display: none;">
                             <h3>Thêm/Chỉnh sửa kinh nghiệm</h3>
@@ -225,16 +231,19 @@
                                 <div class="form-row">
                                     <div class="form-group">
                                         <label for="experience-start">Thời gian bắt đầu</label>
-                                        <input type="text" id="experience-start" name="startDate" placeholder="MM/YYYY" required>
+                                        <input type="text" id="experience-start" name="startDate" placeholder="MM/YYYY"
+                                            required>
                                     </div>
                                     <div class="form-group">
                                         <label for="experience-end">Thời gian kết thúc</label>
-                                        <input type="text" id="experience-end" name="endDate" placeholder="MM/YYYY hoặc Hiện tại">
+                                        <input type="text" id="experience-end" name="endDate"
+                                            placeholder="MM/YYYY hoặc Hiện tại">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="experience-description">Mô tả công việc</label>
-                                    <textarea id="experience-description" name="description" rows="4" required></textarea>
+                                    <textarea id="experience-description" name="description" rows="4"
+                                        required></textarea>
                                 </div>
                                 <div class="form-actions">
                                     <button type="submit" class="btn btn-primary">Lưu kinh nghiệm</button>
@@ -244,79 +253,86 @@
                             </form>
                         </div>
                         <div class="actions-container">
-                            <button type="button" class="btn btn-primary" id="save-experiences">Lưu tất cả kinh nghiệm</button>
+                            <button type="button" class="btn btn-primary" id="save-experiences">Lưu tất cả kinh
+                                nghiệm</button>
                         </div>
                     </section>
-                    
-                    <!-- Portfolio Section -->
-                    <section id="portfolio-section" class="admin-section" style="display: none;">
-                        <h2>Dự án</h2>
-                        <div class="portfolio-container">
-                            <div id="portfolio-list">
-                                <!-- Portfolio items will be added dynamically -->
+
+                    <!-- Events Section -->
+                    <section id="events-section" class="admin-section" style="display: none;">
+                        <h2>Sự kiện đã tổ chức</h2>
+                        <div class="events-container">
+                            <div id="events-list">
+                                <!-- Events items will be added dynamically -->
                             </div>
-                            <button type="button" class="btn btn-secondary" id="add-portfolio">Thêm dự án</button>
+                            <button type="button" class="btn btn-secondary" id="add-event">Thêm sự kiện</button>
                         </div>
-                        <div class="portfolio-form-container" id="portfolio-form-container" style="display: none;">
-                            <h3>Thêm/Chỉnh sửa dự án</h3>
-                            <form id="portfolio-form">
+                        <div class="events-form-container" id="events-form-container" style="display: none;">
+                            <h3>Thêm/Chỉnh sửa sự kiện</h3>
+                            <form id="events-form">
                                 <div class="form-group">
-                                    <label for="portfolio-title">Tên dự án</label>
-                                    <input type="text" id="portfolio-title" name="title" required>
+                                    <label for="event-title">Tên sự kiện</label>
+                                    <input type="text" id="event-title" name="title" required>
                                 </div>
                                 <div class="form-group">
-                                    <label for="portfolio-category">Danh mục</label>
-                                    <select id="portfolio-category" name="category" required>
-                                        <option value="web">Web</option>
-                                        <option value="mobile">Mobile</option>
-                                        <option value="design">Design</option>
+                                    <label for="event-category">Loại sự kiện</label>
+                                    <select id="event-category" name="category" required>
+                                        <option value="wedding">Đám cưới</option>
+                                        <option value="corporate">Doanh nghiệp</option>
+                                        <option value="entertainment">Giải trí</option>
+                                        <option value="private">Riêng tư</option>
+                                        <option value="fashion">Thời trang</option>
                                         <option value="other">Khác</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label for="portfolio-description">Mô tả dự án</label>
-                                    <textarea id="portfolio-description" name="description" rows="4" required></textarea>
+                                    <label for="event-description">Mô tả sự kiện</label>
+                                    <textarea id="event-description" name="description" rows="4" required></textarea>
                                 </div>
                                 <div class="form-group">
-                                    <label>Hình ảnh dự án</label>
+                                    <label>Hình ảnh sự kiện</label>
                                     <div class="image-upload">
                                         <div class="image-preview">
-                                            <img id="portfolio-image-preview" src="" alt="Portfolio Image Preview">
+                                            <img id="event-image-preview" src="" alt="Event Image Preview">
                                         </div>
                                         <div class="upload-controls">
-                                            <input type="file" id="portfolio-image-upload" accept="image/*">
-                                            <button type="button" class="btn btn-secondary" id="select-portfolio-image">Chọn ảnh</button>
+                                            <input type="file" id="event-image-upload" accept="image/*">
+                                            <button type="button" class="btn btn-secondary" id="select-event-image">Chọn
+                                                ảnh</button>
                                         </div>
                                     </div>
-                                    <input type="hidden" id="portfolio-image" name="image">
+                                    <input type="hidden" id="event-image" name="image">
                                 </div>
                                 <div class="form-group">
-                                    <label for="portfolio-technologies">Công nghệ sử dụng</label>
-                                    <input type="text" id="portfolio-technologies" name="technologies" placeholder="VD: HTML, CSS, JavaScript, React" required>
-                                    <small>Nhập các công nghệ, phân cách bằng dấu phẩy</small>
+                                    <label for="event-services">Dịch vụ cung cấp</label>
+                                    <input type="text" id="event-services" name="services"
+                                        placeholder="VD: Event Planning, Decoration, Catering, Photography" required>
+                                    <small>Nhập các dịch vụ, phân cách bằng dấu phẩy</small>
                                 </div>
                                 <div class="form-row">
                                     <div class="form-group">
-                                        <label for="portfolio-demo">Link Demo</label>
-                                        <input type="url" id="portfolio-demo" name="demoLink">
+                                        <label for="event-budget">Ngân sách</label>
+                                        <input type="text" id="event-budget" name="budget"
+                                            placeholder="VD: 500 triệu VNĐ">
                                     </div>
                                     <div class="form-group">
-                                        <label for="portfolio-github">Link GitHub</label>
-                                        <input type="url" id="portfolio-github" name="githubLink">
+                                        <label for="event-duration">Thời gian chuẩn bị</label>
+                                        <input type="text" id="event-duration" name="duration"
+                                            placeholder="VD: 3 tháng chuẩn bị">
                                     </div>
                                 </div>
                                 <div class="form-actions">
-                                    <button type="submit" class="btn btn-primary">Lưu dự án</button>
-                                    <button type="button" class="btn btn-outline" id="cancel-portfolio">Huỷ</button>
+                                    <button type="submit" class="btn btn-primary">Lưu sự kiện</button>
+                                    <button type="button" class="btn btn-outline" id="cancel-event">Huỷ</button>
                                 </div>
-                                <input type="hidden" id="portfolio-index" value="-1">
+                                <input type="hidden" id="event-index" value="-1">
                             </form>
                         </div>
                         <div class="actions-container">
-                            <button type="button" class="btn btn-primary" id="save-portfolios">Lưu tất cả dự án</button>
+                            <button type="button" class="btn btn-primary" id="save-events">Lưu tất cả sự kiện</button>
                         </div>
                     </section>
-                    
+
                     <!-- Preview Section -->
                     <section id="preview-section" class="admin-section" style="display: none;">
                         <h2>Xem trước</h2>
@@ -335,7 +351,7 @@
             </div>
         </div>
     </div>
-    
+
     <!-- Notification -->
     <div class="notification" id="notification">
         <div class="notification-content">
@@ -344,4 +360,5 @@
         </div>
     </div>
 </body>
+
 </html>

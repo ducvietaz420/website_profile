@@ -4,8 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profile Cá Nhân</title>
-    <meta name="description" content="Website giới thiệu profile cá nhân với giao diện hiện đại và hiệu ứng 3D">
+    <title>Event Organizer - Tổ Chức Sự Kiện Chuyên Nghiệp</title>
+    <meta name="description"
+        content="Dịch vụ tổ chức sự kiện chuyên nghiệp với kinh nghiệm hơn 5 năm. Chuyên tổ chức đám cưới, hội nghị, gala dinner và các sự kiện doanh nghiệp.">
 
     <!-- Favicon -->
     <link rel="icon" href="assets/icons/favicon.ico" type="image/x-icon">
@@ -58,7 +59,7 @@
         <div class="container">
             <div class="logo">
                 <a href="/">
-                    <span>Portfolio</span>
+                    <span>Event Organizer</span>
                 </a>
             </div>
             <nav class="nav">
@@ -67,7 +68,7 @@
                     <li><a href="#about">Giới thiệu</a></li>
                     <li><a href="#skills">Kỹ năng</a></li>
                     <li><a href="#experience">Kinh nghiệm</a></li>
-                    <li><a href="#portfolio">Dự án</a></li>
+                    <li><a href="#events">Sự kiện</a></li>
                     <li><a href="#contact">Liên hệ</a></li>
                 </ul>
             </nav>
@@ -89,7 +90,7 @@
                 <p class="bio" data-bio></p>
                 <div class="cta-buttons">
                     <a href="#contact" class="btn btn-primary">Liên hệ</a>
-                    <a href="#portfolio" class="btn btn-secondary">Xem dự án</a>
+                    <a href="#events" class="btn btn-secondary">Xem sự kiện</a>
                 </div>
             </div>
             <div class="hero-visual">
@@ -176,7 +177,8 @@
             <div class="skills-content">
                 <div class="skills-text">
                     <h3>Các kỹ năng chuyên môn</h3>
-                    <p>Dưới đây là những kỹ năng mà tôi đã tích lũy và phát triển qua các dự án và kinh nghiệm làm việc.
+                    <p>Dưới đây là những kỹ năng mà tôi đã tích lũy và phát triển qua các sự kiện và kinh nghiệm tổ
+                        chức.
                     </p>
                 </div>
                 <div class="skills-list" id="skills-container">
@@ -201,22 +203,23 @@
         </div>
     </section>
 
-    <!-- Portfolio Section -->
-    <section id="portfolio" class="portfolio-section">
+    <!-- Events Section -->
+    <section id="events" class="events-section">
         <div class="container">
             <div class="section-header">
-                <h2>Dự án</h2>
+                <h2>Sự kiện đã tổ chức</h2>
                 <div class="underline"></div>
             </div>
-            <div class="portfolio-filter">
+            <div class="events-filter">
                 <button class="filter-btn active" data-filter="all">Tất cả</button>
-                <button class="filter-btn" data-filter="web">Web</button>
-                <button class="filter-btn" data-filter="mobile">Mobile</button>
-                <button class="filter-btn" data-filter="design">Design</button>
-                <button class="filter-btn" data-filter="other">Khác</button>
+                <button class="filter-btn" data-filter="wedding">Đám cưới</button>
+                <button class="filter-btn" data-filter="corporate">Doanh nghiệp</button>
+                <button class="filter-btn" data-filter="entertainment">Giải trí</button>
+                <button class="filter-btn" data-filter="private">Riêng tư</button>
+                <button class="filter-btn" data-filter="fashion">Thời trang</button>
             </div>
-            <div class="portfolio-grid" id="portfolio-container">
-                <!-- Portfolio items will be added dynamically -->
+            <div class="events-grid" id="events-container">
+                <!-- Events items will be added dynamically -->
             </div>
         </div>
     </section>
@@ -284,8 +287,8 @@
         <div class="container">
             <div class="footer-content">
                 <div class="footer-logo">
-                    <h3>Portfolio</h3>
-                    <p>Website giới thiệu profile cá nhân với giao diện hiện đại và hiệu ứng 3D</p>
+                    <h3>Event Organizer</h3>
+                    <p>Dịch vụ tổ chức sự kiện chuyên nghiệp với kinh nghiệm hơn 5 năm trong lĩnh vực</p>
                 </div>
                 <div class="footer-links">
                     <h3>Liên kết nhanh</h3>
@@ -294,7 +297,7 @@
                         <li><a href="#about">Giới thiệu</a></li>
                         <li><a href="#skills">Kỹ năng</a></li>
                         <li><a href="#experience">Kinh nghiệm</a></li>
-                        <li><a href="#portfolio">Dự án</a></li>
+                        <li><a href="#events">Sự kiện</a></li>
                         <li><a href="#contact">Liên hệ</a></li>
                     </ul>
                 </div>
@@ -320,29 +323,33 @@
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; <span id="current-year"></span> - Profile Cá Nhân. Tất cả các quyền được bảo lưu.</p>
+                <p>&copy; <span id="current-year"></span> - Event Organizer. Tất cả các quyền được bảo lưu.</p>
             </div>
         </div>
     </footer>
 
-    <!-- Project Details Modal -->
-    <div class="modal" id="project-modal">
+    <!-- Event Details Modal -->
+    <div class="modal" id="event-modal">
         <div class="modal-content">
             <span class="close-modal">&times;</span>
             <div class="modal-body">
-                <div class="project-details">
+                <div class="event-details">
                     <h2 id="modal-title"></h2>
-                    <div class="project-image">
-                        <img id="modal-image" src="" alt="Project Image">
+                    <div class="event-image">
+                        <img id="modal-image" src="" alt="Event Image">
                     </div>
-                    <div class="project-info">
-                        <h3>Mô tả dự án</h3>
+                    <div class="event-info">
+                        <h3>Mô tả sự kiện</h3>
                         <p id="modal-description"></p>
-                        <h3>Công nghệ sử dụng</h3>
-                        <ul id="modal-technologies"></ul>
-                        <div class="project-links">
-                            <a href="#" id="modal-demo" class="btn btn-primary" target="_blank">Xem demo</a>
-                            <a href="#" id="modal-github" class="btn btn-secondary" target="_blank">Github</a>
+                        <h3>Dịch vụ cung cấp</h3>
+                        <ul id="modal-services"></ul>
+                        <div class="event-details-info">
+                            <div class="detail-item">
+                                <strong>Ngân sách:</strong> <span id="modal-budget"></span>
+                            </div>
+                            <div class="detail-item">
+                                <strong>Thời gian chuẩn bị:</strong> <span id="modal-duration"></span>
+                            </div>
                         </div>
                     </div>
                 </div>

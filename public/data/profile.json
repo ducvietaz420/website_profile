@@ -1,9 +1,9 @@
 {
   "personal": {
     "name": "Nguyễn Đức Việt",
-    "title": "Web Developer",
-    "bio": "Tôi là một lập trình viên web đam mê sáng tạo và giải quyết vấn đề.",
-    "about": "Tôi có hơn 5 năm kinh nghiệm trong lĩnh vực phát triển web, chuyên về JavaScript và các framework hiện đại. Tôi luôn tìm kiếm những thách thức mới để nâng cao kỹ năng và mở rộng kiến thức của mình.",
+    "title": "Event Organizer & Planner",
+    "bio": "Tôi là một chuyên gia tổ chức sự kiện với đam mê tạo ra những trải nghiệm đáng nhớ và ý nghĩa.",
+    "about": "Tôi có hơn 5 năm kinh nghiệm trong lĩnh vực tổ chức sự kiện, từ các buổi tiệc sinh nhật, đám cưới, hội nghị doanh nghiệp đến các sự kiện lớn. Tôi chuyên về quản lý dự án, phối hợp nhà cung cấp và tạo ra những khoảnh khắc đặc biệt cho khách hàng.",
     "birthday": "25/07/2002",
     "location": "Hà Nội, Việt Nam",
     "email": "ducvietaz420@gmail.com",
@@ -19,89 +19,115 @@
   },
   "skills": [
     {
-      "name": "HTML/CSS",
+      "name": "Event Planning",
       "level": 95
     },
     {
-      "name": "JavaScript",
+      "name": "Project Management",
       "level": 90
     },
     {
-      "name": "React",
+      "name": "Vendor Coordination",
+      "level": 88
+    },
+    {
+      "name": "Budget Management",
       "level": 85
     },
     {
-      "name": "Node.js",
+      "name": "Marketing & Promotion",
       "level": 80
     },
     {
-      "name": "PHP",
+      "name": "Customer Service",
+      "level": 92
+    },
+    {
+      "name": "Creative Design",
       "level": 75
     },
     {
-      "name": "Python",
-      "level": 70
+      "name": "Risk Management",
+      "level": 82
     }
   ],
   "experience": [
     {
-      "title": "Senior Web Developer",
-      "company": "Công ty ABC",
+      "title": "Senior Event Manager",
+      "company": "VietEvent Solutions",
       "startDate": "01/2020",
       "endDate": "",
-      "description": "Phát triển và duy trì các ứng dụng web sử dụng React và Node.js. Tối ưu hóa hiệu suất và cải thiện trải nghiệm người dùng."
+      "description": "Quản lý và điều phối các sự kiện lớn từ 500-2000 người. Phụ trách ngân sách từ 500 triệu đến 2 tỷ đồng. Đã tổ chức thành công hơn 50 sự kiện bao gồm hội nghị, triển lãm và gala dinner."
     },
     {
-      "title": "Web Developer",
-      "company": "Công ty XYZ",
+      "title": "Event Coordinator",
+      "company": "Luxury Events Vietnam",
       "startDate": "06/2017",
       "endDate": "12/2019",
-      "description": "Xây dựng các trang web responsive và tích hợp API. Làm việc với team để cải thiện quy trình phát triển."
+      "description": "Phối hợp tổ chức các sự kiện cao cấp như đám cưới, tiệc sinh nhật và sự kiện doanh nghiệp. Quản lý mối quan hệ với hơn 100 nhà cung cấp dịch vụ và đạt tỷ lệ hài lòng khách hàng 98%."
     },
     {
-      "title": "Intern",
-      "company": "Công ty DEF",
+      "title": "Event Assistant",
+      "company": "Creative Events Co.",
       "startDate": "01/2017",
       "endDate": "05/2017",
-      "description": "Hỗ trợ team phát triển trong việc xây dựng và kiểm thử các tính năng website."
+      "description": "Hỗ trợ team tổ chức trong việc chuẩn bị và thực hiện các sự kiện. Học hỏi quy trình quản lý sự kiện từ khâu lên ý tưởng đến triển khai thực tế."
     }
   ],
-  "portfolio": [
+  "events": [
     {
-      "title": "E-commerce Website",
-      "category": "web",
-      "description": "Website thương mại điện tử với đầy đủ tính năng như giỏ hàng, thanh toán, quản lý sản phẩm và đơn hàng.",
+      "title": "Đám cưới sang trọng tại JW Marriott",
+      "category": "wedding",
+      "description": "Tổ chức đám cưới cho 300 khách mời với chủ đề cổ điển châu Âu. Bao gồm trang trí hoa tươi, âm thanh ánh sáng chuyên nghiệp và menu 5 sao.",
       "image": "assets/images/image-1748099645317-452820875.jpg",
-      "technologies": "React, Node.js, MongoDB, Express",
-      "demoLink": "https://example.com/demo1",
-      "githubLink": "https://github.com/example/project1"
+      "services": "Wedding Planning, Decoration, Catering, Photography",
+      "budget": "800 triệu VNĐ",
+      "duration": "6 tháng chuẩn bị"
     },
     {
-      "title": "Task Management App",
-      "category": "web",
-      "description": "Ứng dụng quản lý công việc với tính năng kéo thả, nhắc nhở và phân công nhiệm vụ.",
+      "title": "Hội nghị công nghệ Tech Summit 2023",
+      "category": "corporate",
+      "description": "Tổ chức hội nghị công nghệ quy mô 1000 người với 20 diễn giả quốc tế. Bao gồm livestream, networking và triển lãm công nghệ.",
       "image": "assets/images/project-2.jpg",
-      "technologies": "Vue.js, Firebase, Vuetify",
-      "demoLink": "https://example.com/demo2",
-      "githubLink": "https://github.com/example/project2"
+      "services": "Event Management, AV Equipment, Catering, Registration",
+      "budget": "1.2 tỷ VNĐ",
+      "duration": "4 tháng chuẩn bị"
     },
     {
-      "title": "Mobile Weather App",
-      "category": "mobile",
-      "description": "Ứng dụng dự báo thời tiết cho điện thoại di động với giao diện trực quan và cập nhật theo thời gian thực.",
+      "title": "Lễ kỷ niệm 10 năm thành lập công ty",
+      "category": "corporate",
+      "description": "Gala dinner kỷ niệm với 500 khách mời, chương trình văn nghệ và trao giải thưởng. Tổ chức tại khách sạn 5 sao với view sông Hồng.",
       "image": "assets/images/project-3.jpg",
-      "technologies": "React Native, Redux, Weather API",
-      "demoLink": "https://example.com/demo3",
-      "githubLink": "https://github.com/example/project3"
+      "services": "Gala Organization, Entertainment, Awards Ceremony, Catering",
+      "budget": "600 triệu VNĐ",
+      "duration": "3 tháng chuẩn bị"
     },
     {
-      "title": "Portfolio Website",
-      "category": "design",
-      "description": "Website portfolio cá nhân với nhiều hiệu ứng animation và tương tác người dùng.",
+      "title": "Festival âm nhạc mùa hè",
+      "category": "entertainment",
+      "description": "Tổ chức festival âm nhạc ngoài trời với 5000 khách tham dự, 15 nghệ sĩ biểu diễn và 30 gian hàng ẩm thực.",
       "image": "assets/images/project-4.jpg",
-      "technologies": "HTML, CSS, JavaScript, GSAP",
-      "demoLink": "https://example.com/demo4",
-      "githubLink": "https://github.com/example/project4"
+      "services": "Stage Setup, Security, Food Court, Ticketing, Marketing",
+      "budget": "2 tỷ VNĐ",
+      "duration": "8 tháng chuẩn bị"
+    },
+    {
+      "title": "Sinh nhật VIP cho CEO",
+      "category": "private",
+      "description": "Tiệc sinh nhật riêng tư cho 50 khách mời VIP với chủ đề Great Gatsby, bao gồm trang trí xa hoa và menu đặc biệt.",
+      "image": "assets/images/project-4.jpg",
+      "services": "Private Party Planning, Luxury Decoration, Premium Catering",
+      "budget": "200 triệu VNĐ",
+      "duration": "2 tháng chuẩn bị"
+    },
+    {
+      "title": "Triển lãm thời trang Thu Đông",
+      "category": "fashion",
+      "description": "Tổ chức show thời trang với sàn diễn chuyên nghiệp, 20 người mẫu và 300 khách mời từ giới thời trang.",
+      "image": "assets/images/project-4.jpg",
+      "services": "Runway Setup, Model Coordination, Lighting, Media Coverage",
+      "budget": "400 triệu VNĐ",
+      "duration": "3 tháng chuẩn bị"
     }
   ]
 }
