@@ -300,19 +300,29 @@ function showSection(sectionId) {
  */
 function initForms() {
     // Khởi tạo form thông tin cá nhân
-    initPersonalForm();
+    if (typeof initPersonalForm === 'function') {
+        initPersonalForm();
+    }
     
     // Khởi tạo form kỹ năng
-    initSkillForm();
+    if (typeof initSkillForm === 'function') {
+        initSkillForm();
+    }
     
     // Khởi tạo form kinh nghiệm
-    initExperienceForm();
+    if (typeof initExperienceForm === 'function') {
+        initExperienceForm();
+    }
     
-    // Khởi tạo form portfolio
-    initPortfolioForm();
+    // Khởi tạo form portfolio (nếu có)
+    if (typeof initPortfolioForm === 'function') {
+        initPortfolioForm();
+    }
     
     // Khởi tạo sự kiện upload ảnh
-    initImageUpload();
+    if (typeof initImageUpload === 'function') {
+        initImageUpload();
+    }
 }
 
 /**

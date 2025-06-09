@@ -186,44 +186,95 @@ class AnimationManager {
      * Animation cho hero section
      */
     initHeroAnimation() {
-        const heroTl = gsap.timeline();
+        // Ensure the avatar is visible even if animation fails
+        const heroAvatar = document.querySelector('.hero-avatar');
+        if (heroAvatar) {
+            // Set a timeout to make sure avatar becomes visible regardless of GSAP
+            setTimeout(() => {
+                heroAvatar.style.opacity = '1';
+                heroAvatar.style.transform = 'scale(1, 1)';
+            }, 1000);
+        }
 
-        heroTl.from('.hero-content h1', {
-            y: 50,
-            opacity: 0,
-            duration: 0.8,
-            delay: 0.5
-        })
-            .from('.hero-content h2', {
-                y: 50,
-                opacity: 0,
-                duration: 0.8
-            }, '-=0.5')
-            .from('.hero-content p', {
-                y: 50,
-                opacity: 0,
-                duration: 0.8
-            }, '-=0.5')
-            .from('.cta-buttons', {
-                y: 50,
-                opacity: 0,
-                duration: 0.8
-            }, '-=0.5')
-            .from('.hero-avatar', {
-                scale: 0.8,
-                opacity: 0,
-                duration: 1
-            }, '-=0.8')
-            .from('.hero-bg', {
-                scale: 0.5,
-                opacity: 0,
-                duration: 1.5
-            }, '-=1')
-            .from('.scroll-indicator', {
-                opacity: 0,
-                y: 20,
-                duration: 0.5
-            }, '-=0.5');
+        // Try to run GSAP animation if available
+        try {
+            if (typeof gsap !== 'undefined') {
+                const heroTl = gsap.timeline();
+
+                heroTl.from('.hero-content h1', {
+                    y: 50,
+                    opacity: 0,
+                    duration: 0.8,
+                    delay: 0.5
+                })
+                    .from('.hero-content h2', {
+                        y: 50,
+                        opacity: 0,
+                        duration: 0.8
+                    }, '-=0.5')
+                    .from('.hero-content p', {
+                        y: 50,
+                        opacity: 0,
+                        duration: 0.8
+                    }, '-=0.5')
+                    .from('.cta-buttons', {
+                        y: 50,
+                        opacity: 0,
+                        duration: 0.8
+                    }, '-=0.5')
+                    .from('.hero-avatar', {
+                        scale: 0.8,
+                        opacity: 0,
+                        duration: 1,
+                        onComplete: () => {
+                            // Ensure the avatar is visible after animation
+                            if (heroAvatar) {
+                                heroAvatar.style.opacity = '1';
+                                heroAvatar.style.transform = 'scale(1, 1)';
+                            }
+                        }
+                    }, '-=0.8')
+                    .from('.hero-bg', {
+                        scale: 0.5,
+                        opacity: 0,
+                        duration: 1.5
+                    }, '-=1')
+                    .from('.scroll-indicator', {
+                        opacity: 0,
+                        y: 20,
+                        duration: 0.5
+                    }, '-=0.5');
+            } else {
+                console.warn('GSAP not available, using fallback animations');
+                // Simple fallback animation using CSS transitions
+                const elements = [
+                    '.hero-content h1', 
+                    '.hero-content h2', 
+                    '.hero-content p', 
+                    '.cta-buttons', 
+                    '.hero-avatar', 
+                    '.hero-bg', 
+                    '.scroll-indicator'
+                ];
+                
+                elements.forEach((selector, index) => {
+                    const element = document.querySelector(selector);
+                    if (element) {
+                        setTimeout(() => {
+                            element.style.opacity = '1';
+                            element.style.transform = 'translateY(0) scale(1)';
+                        }, 300 * index);
+                    }
+                });
+            }
+        } catch (error) {
+            console.error('Error in hero animation:', error);
+            // Ensure avatar is visible even if animation fails
+            if (heroAvatar) {
+                heroAvatar.style.opacity = '1';
+                heroAvatar.style.transform = 'scale(1, 1)';
+            }
+        }
     }
 
     /**
@@ -233,7 +284,13 @@ class AnimationManager {
         const fullNameElement = document.querySelector('.full-name');
         if (!fullNameElement) return;
 
-        const name = fullNameElement.getAttribute('data-name') || 'Tên của bạn';
+        // Chỉ sử dụng giá trị từ thuộc tính data-name
+        const name = fullNameElement.getAttribute('data-name');
+        
+        // Nếu không có tên, không thực hiện hiệu ứng
+        if (!name) return;
+        
+        // Xóa nội dung hiện tại để bắt đầu hiệu ứng đánh chữ
         fullNameElement.textContent = '';
         fullNameElement.classList.add('typing');
 
@@ -251,8 +308,8 @@ class AnimationManager {
             }
         };
 
-        // Bắt đầu hiệu ứng đánh chữ sau 1.5 giây
-        setTimeout(typeWriter, 1500);
+        // Bắt đầu hiệu ứng đánh chữ sau 1 giây
+        setTimeout(typeWriter, 1000);
     }
 
     /**

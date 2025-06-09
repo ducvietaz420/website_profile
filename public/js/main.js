@@ -70,8 +70,12 @@ function updatePersonalInfo(personal) {
     // Cập nhật tên và tiêu đề
     const nameElement = document.querySelector('.full-name');
     if (nameElement) {
-        nameElement.textContent = personal.name;
-        nameElement.setAttribute('data-name', personal.name);
+        // Xóa hoàn toàn nội dung cũ trước khi cập nhật
+        while (nameElement.firstChild) {
+            nameElement.removeChild(nameElement.firstChild);
+        }
+        nameElement.textContent = personal.name || '';
+        nameElement.setAttribute('data-name', personal.name || '');
     }
 
     const titleElement = document.querySelector('[data-title]');
@@ -146,6 +150,18 @@ function updateSocialLinks(personal) {
         const linkElement = document.querySelector(`[data-${platform}]`);
         if (linkElement && personal[platform]) {
             linkElement.href = personal[platform];
+            linkElement.setAttribute('target', '_blank'); // Mở trong tab mới
+            linkElement.style.display = 'flex'; // Đảm bảo hiển thị
+            
+            // Xóa tất cả các sự kiện click cũ (nếu có)
+            const newLink = linkElement.cloneNode(true);
+            linkElement.parentNode.replaceChild(newLink, linkElement);
+            
+            // Thêm sự kiện click mới để đảm bảo liên kết hoạt động
+            newLink.addEventListener('click', function(e) {
+                // Không ngăn chặn hành vi mặc định, cho phép liên kết hoạt động bình thường
+                // window.open(this.href, '_blank');
+            });
         } else if (linkElement) {
             linkElement.style.display = 'none';
         }
@@ -154,6 +170,18 @@ function updateSocialLinks(personal) {
         const footerLinkElement = document.querySelector(`[data-${platform}-footer]`);
         if (footerLinkElement && personal[platform]) {
             footerLinkElement.href = personal[platform];
+            footerLinkElement.setAttribute('target', '_blank'); // Mở trong tab mới
+            footerLinkElement.style.display = 'flex'; // Đảm bảo hiển thị
+            
+            // Xóa tất cả các sự kiện click cũ (nếu có)
+            const newFooterLink = footerLinkElement.cloneNode(true);
+            footerLinkElement.parentNode.replaceChild(newFooterLink, footerLinkElement);
+            
+            // Thêm sự kiện click mới để đảm bảo liên kết hoạt động
+            newFooterLink.addEventListener('click', function(e) {
+                // Không ngăn chặn hành vi mặc định, cho phép liên kết hoạt động bình thường
+                // window.open(this.href, '_blank');
+            });
         } else if (footerLinkElement) {
             footerLinkElement.style.display = 'none';
         }
@@ -391,6 +419,11 @@ function initEventListeners() {
     const navLinks = document.querySelectorAll('a[href^="#"]');
 
     navLinks.forEach(link => {
+        // Không thêm event listener cho các liên kết mạng xã hội
+        if (link.classList.contains('social-link')) {
+            return;
+        }
+        
         link.addEventListener('click', function (e) {
             e.preventDefault();
 
@@ -466,8 +499,7 @@ function initScrollIndicator() {
  */
 function initEventsFilter() {
     const filterButtons = document.querySelectorAll('.filter-btn');
-    const eventItems = document.querySelectorAll('.event-item');
-
+    
     filterButtons.forEach(button => {
         button.addEventListener('click', () => {
             // Xóa class active khỏi tất cả các nút
@@ -478,7 +510,10 @@ function initEventsFilter() {
 
             // Lấy category được chọn
             const filterValue = button.getAttribute('data-filter');
-
+            
+            // Lấy tất cả các event items
+            const eventItems = document.querySelectorAll('.event-item');
+            
             // Lọc các event items
             eventItems.forEach(item => {
                 if (filterValue === 'all' || item.getAttribute('data-category') === filterValue) {

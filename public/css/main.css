@@ -539,18 +539,17 @@ button {
 }
 
 .btn-primary {
-    background: rgba(255, 255, 255, 0.2);
+    background: var(--primary-gradient);
     color: white;
-    border: 2px solid rgba(255, 255, 255, 0.3);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+    border: 2px solid transparent;
+    box-shadow: var(--shadow-colored);
 }
 
 .btn-primary:hover {
-    background: rgba(255, 255, 255, 0.3);
+    background: var(--secondary-gradient);
     border-color: rgba(255, 255, 255, 0.5);
     transform: translateY(-3px);
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 10px 25px rgba(245, 87, 108, 0.4);
 }
 
 .btn-secondary {
