@@ -248,6 +248,9 @@ router.post('/auth/forgotPassword', async (req, res) => {
   try {
     const { email } = req.body;
     
+    console.log('========= FORGOT PASSWORD DEBUG =========');
+    console.log('Email received:', email);
+    
     if (!email) {
       return res.status(400).json({ error: 'Vui lòng nhập email' });
     }
@@ -256,6 +259,8 @@ router.post('/auth/forgotPassword', async (req, res) => {
     const data = JSON.parse(fs.readFileSync(dataPath, 'utf8'));
     const adminEmail = data.personal.adminEmail;
     
+    console.log('Admin email in profile:', adminEmail);
+    
     if (!adminEmail) {
       return res.status(500).json({ error: 'Chưa cấu hình email admin' });
     }
@@ -263,18 +268,25 @@ router.post('/auth/forgotPassword', async (req, res) => {
     // Kiểm tra email nhập vào có phải email admin không
     if (email !== adminEmail) {
       // Không thông báo lỗi cụ thể để tránh leak thông tin
+      console.log('Email mismatch, security response sent');
       return res.json({ success: true, message: 'Nếu email tồn tại, hướng dẫn đặt lại mật khẩu sẽ được gửi.' });
     }
     
     // Tạo token đặt lại mật khẩu
+    const secret = process.env.JWT_SECRET || 'your-secret-key';
+    console.log('Using JWT_SECRET:', secret.substring(0, 3) + '...[REDACTED]');
+    
     const resetToken = jwt.sign(
       { email },
-      process.env.JWT_SECRET || 'your-secret-key',
+      secret,
       { expiresIn: '15m' }
     );
     
+    console.log('Generated reset token (partial):', resetToken.substring(0, 15) + '...');
+    
     // Lưu token và thời gian hết hạn
     const resetTokenExpires = Date.now() + 15 * 60 * 1000; // 15 phút
+    console.log('Token expiration set to:', new Date(resetTokenExpires).toISOString());
     
     // Cập nhật thông tin trong profile.json
     data.personal.resetToken = resetToken;
@@ -282,7 +294,18 @@ router.post('/auth/forgotPassword', async (req, res) => {
     fs.writeFileSync(dataPath, JSON.stringify(data, null, 2), 'utf8');
     
     // Tạo đường dẫn đặt lại mật khẩu
-    const resetUrl = `${req.protocol}://${req.get('host')}/reset-password.html?token=${resetToken}`;
+    // Sử dụng APP_URL từ biến môi trường hoặc xây dựng từ request
+    let baseUrl = process.env.APP_URL;
+    
+    if (!baseUrl) {
+      baseUrl = `${req.protocol}://${req.get('host')}`;
+      console.log('No APP_URL in env, using request-based URL:', baseUrl);
+    } else {
+      console.log('Using APP_URL from env:', baseUrl);
+    }
+    
+    const resetUrl = `${baseUrl}/reset-password.html?token=${encodeURIComponent(resetToken)}`;
+    console.log('Reset URL (partial):', resetUrl.substring(0, 50) + '...');
     
     // Nội dung email
     const emailContent = `
@@ -298,6 +321,9 @@ router.post('/auth/forgotPassword', async (req, res) => {
     // Kiểm tra biến môi trường EMAIL_PROVIDER
     const emailProvider = process.env.EMAIL_PROVIDER || 'gmail';
     
+    console.log('Email provider:', emailProvider);
+    console.log('Sending reset email to:', adminEmail);
+    
     // Gửi email sử dụng SendGrid nếu được cấu hình
     if (emailProvider === 'sendgrid' && sgMail && process.env.SENDGRID_API_KEY) {
       console.log('Using SendGrid to send password reset email');
@@ -312,6 +338,7 @@ router.post('/auth/forgotPassword', async (req, res) => {
       };
       
       await sgMail.send(msg);
+      console.log('SendGrid email sent successfully');
     } 
     // Sử dụng Nodemailer + Gmail
     else {
@@ -336,8 +363,10 @@ router.post('/auth/forgotPassword', async (req, res) => {
       
       // Gửi email
       await transporter.sendMail(mailOptions);
+      console.log('Nodemailer email sent successfully');
     }
     
+    console.log('====================================');
     res.json({ success: true, message: 'Hướng dẫn đặt lại mật khẩu đã được gửi đến email của bạn.' });
   } catch (error) {
     console.error('Forgot password error:', error);
@@ -345,31 +374,125 @@ router.post('/auth/forgotPassword', async (req, res) => {
   }
 });
 
+// Xác thực token đặt lại mật khẩu
+router.post('/auth/verifyResetToken', async (req, res) => {
+  try {
+    let { token } = req.body;
+    
+    console.log('========= VERIFY TOKEN DEBUG =========');
+    console.log('Received token (raw):', token);
+    
+    if (!token) {
+      console.log('No token provided');
+      return res.status(400).json({ error: 'Vui lòng cung cấp token', success: false });
+    }
+    
+    // Đảm bảo token không bị mã hóa URL
+    try {
+      // Thử decode token nếu nó đã được encode
+      const decodedToken = decodeURIComponent(token);
+      if (decodedToken !== token) {
+        console.log('Token was URL encoded, decoded version will be used');
+        token = decodedToken;
+      }
+    } catch (e) {
+      console.log('Token decoding failed, using original token');
+    }
+    
+    console.log('Token after potential decoding:', token);
+    
+    // Đọc dữ liệu từ file profile.json
+    const data = JSON.parse(fs.readFileSync(dataPath, 'utf8'));
+    
+    console.log('Stored token:', data.personal.resetToken);
+    console.log('Token expiration:', new Date(data.personal.resetTokenExpires).toISOString());
+    console.log('Current time:', new Date().toISOString());
+    console.log('Is token expired:', Date.now() > data.personal.resetTokenExpires);
+    
+    // Kiểm tra token có hợp lệ không
+    if (data.personal.resetToken !== token) {
+      console.log('Token mismatch!');
+      return res.status(400).json({ error: 'Token không hợp lệ', success: false });
+    }
+    
+    // Kiểm tra token còn hiệu lực không
+    if (Date.now() > data.personal.resetTokenExpires) {
+      console.log('Token expired!');
+      return res.status(400).json({ error: 'Token đã hết hạn', success: false });
+    }
+    
+    // Xác thực JWT token
+    try {
+      const secret = process.env.JWT_SECRET || 'your-secret-key';
+      console.log('Using JWT_SECRET:', secret.substring(0, 3) + '...[REDACTED]');
+      
+      const decoded = jwt.verify(token, secret);
+      console.log('JWT verification success, decoded payload:', decoded);
+      
+      res.json({ success: true, message: 'Token hợp lệ' });
+    } catch (tokenError) {
+      console.error('Token verification error:', tokenError);
+      res.status(400).json({ error: 'Token không hợp lệ hoặc đã hết hạn', success: false });
+    }
+    console.log('====================================');
+  } catch (error) {
+    console.error('Verify reset token error:', error);
+    res.status(500).json({ error: 'Lỗi server', success: false });
+  }
+});
+
 // Đặt lại mật khẩu admin với token
 router.post('/auth/resetPassword', async (req, res) => {
   try {
-    const { token, newPassword } = req.body;
+    let { token, newPassword } = req.body;
+    
+    console.log('========= RESET PASSWORD DEBUG =========');
+    console.log('Received token (raw):', token);
     
     if (!token || !newPassword) {
       return res.status(400).json({ error: 'Vui lòng cung cấp đầy đủ thông tin' });
     }
     
+    // Đảm bảo token không bị mã hóa URL
+    try {
+      // Thử decode token nếu nó đã được encode
+      const decodedToken = decodeURIComponent(token);
+      if (decodedToken !== token) {
+        console.log('Token was URL encoded, decoded version will be used');
+        token = decodedToken;
+      }
+    } catch (e) {
+      console.log('Token decoding failed, using original token');
+    }
+    
+    console.log('Token after potential decoding:', token);
+    
     // Đọc dữ liệu từ file profile.json
     const data = JSON.parse(fs.readFileSync(dataPath, 'utf8'));
     
+    console.log('Stored token:', data.personal.resetToken);
+    console.log('Token expiration:', new Date(data.personal.resetTokenExpires).toISOString());
+    console.log('Current time:', new Date().toISOString());
+    
     // Kiểm tra token có hợp lệ không
     if (data.personal.resetToken !== token) {
+      console.log('Token mismatch!');
       return res.status(400).json({ error: 'Token không hợp lệ' });
     }
     
     // Kiểm tra token còn hiệu lực không
     if (Date.now() > data.personal.resetTokenExpires) {
+      console.log('Token expired!');
       return res.status(400).json({ error: 'Token đã hết hạn' });
     }
     
     try {
       // Xác thực token
-      jwt.verify(token, process.env.JWT_SECRET || 'your-secret-key');
+      const secret = process.env.JWT_SECRET || 'your-secret-key';
+      console.log('Using JWT_SECRET:', secret.substring(0, 3) + '...[REDACTED]');
+      
+      const decoded = jwt.verify(token, secret);
+      console.log('JWT verification success, decoded payload:', decoded);
       
       // Hash mật khẩu mới
       const salt = await bcrypt.genSalt(10);
@@ -385,6 +508,9 @@ router.post('/auth/resetPassword', async (req, res) => {
       // Lưu lại file profile.json
       fs.writeFileSync(dataPath, JSON.stringify(data, null, 2), 'utf8');
       
+      console.log('Password reset successful');
+      console.log('====================================');
+      
       res.json({ success: true, message: 'Đặt lại mật khẩu thành công' });
     } catch (tokenError) {
       console.error('Token verification error:', tokenError);
@@ -393,42 +519,6 @@ router.post('/auth/resetPassword', async (req, res) => {
   } catch (error) {
     console.error('Reset password error:', error);
     res.status(500).json({ error: 'Lỗi server' });
-  }
-});
-
-// Xác thực token đặt lại mật khẩu
-router.post('/auth/verifyResetToken', async (req, res) => {
-  try {
-    const { token } = req.body;
-    
-    if (!token) {
-      return res.status(400).json({ error: 'Vui lòng cung cấp token' });
-    }
-    
-    // Đọc dữ liệu từ file profile.json
-    const data = JSON.parse(fs.readFileSync(dataPath, 'utf8'));
-    
-    // Kiểm tra token có hợp lệ không
-    if (data.personal.resetToken !== token) {
-      return res.status(400).json({ error: 'Token không hợp lệ', success: false });
-    }
-    
-    // Kiểm tra token còn hiệu lực không
-    if (Date.now() > data.personal.resetTokenExpires) {
-      return res.status(400).json({ error: 'Token đã hết hạn', success: false });
-    }
-    
-    // Xác thực JWT token
-    try {
-      jwt.verify(token, process.env.JWT_SECRET || 'your-secret-key');
-      res.json({ success: true, message: 'Token hợp lệ' });
-    } catch (tokenError) {
-      console.error('Token verification error:', tokenError);
-      res.status(400).json({ error: 'Token không hợp lệ hoặc đã hết hạn', success: false });
-    }
-  } catch (error) {
-    console.error('Verify reset token error:', error);
-    res.status(500).json({ error: 'Lỗi server', success: false });
   }
 });
 
