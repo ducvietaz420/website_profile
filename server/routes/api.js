@@ -3,6 +3,9 @@ const router = express.Router();
 const path = require('path');
 const fs = require('fs');
 const multer = require('multer');
+const nodemailer = require('nodemailer');
+// Thêm SendGrid
+const sgMail = process.env.SENDGRID_API_KEY ? require('@sendgrid/mail') : null;
 
 // Cấu hình multer cho việc upload files
 const storage = multer.diskStorage({
@@ -40,7 +43,8 @@ const ensureDataFile = (req, res, next) => {
         name: "Tên của bạn",
         title: "Chức danh",
         bio: "Mô tả ngắn",
-        avatar: "assets/images/default-avatar.jpg"
+        avatar: "assets/images/default-avatar.jpg",
+        adminEmail: "admin@example.com"
       },
       skills: [
         { name: "JavaScript", level: 90 },
@@ -152,6 +156,106 @@ router.post('/auth', (req, res) => {
     res.json({ success: true });
   } else {
     res.status(401).json({ error: 'Mật khẩu không đúng' });
+  }
+});
+
+// API endpoint để gửi email từ form liên hệ
+router.post('/contact', async (req, res) => {
+  try {
+    const { name, email, subject, message } = req.body;
+    
+    // Kiểm tra dữ liệu
+    if (!name || !email || !subject || !message) {
+      return res.status(400).json({ error: 'Vui lòng điền đầy đủ thông tin' });
+    }
+    
+    // Đọc file profile.json để lấy email admin
+    const data = JSON.parse(fs.readFileSync(dataPath, 'utf8'));
+    const adminEmail = data.personal.adminEmail;
+    
+    if (!adminEmail) {
+      return res.status(500).json({ error: 'Chưa cấu hình email admin' });
+    }
+
+    // Kiểm tra biến môi trường EMAIL_PROVIDER
+    const emailProvider = process.env.EMAIL_PROVIDER || 'gmail';
+    
+    console.log('Sending email with provider:', emailProvider);
+    console.log('Admin email:', adminEmail);
+    
+    // Nội dung email
+    const emailContent = `
+      <h3>Thông tin liên hệ mới từ website</h3>
+      <p><strong>Tên:</strong> ${name}</p>
+      <p><strong>Email:</strong> ${email}</p>
+      <p><strong>Tiêu đề:</strong> ${subject}</p>
+      <p><strong>Nội dung:</strong></p>
+      <p>${message.replace(/\n/g, '<br>')}</p>
+    `;
+    
+    // Gửi email sử dụng SendGrid nếu được cấu hình
+    if (emailProvider === 'sendgrid' && sgMail && process.env.SENDGRID_API_KEY) {
+      console.log('Using SendGrid to send email');
+      
+      sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+      
+      const msg = {
+        to: adminEmail,
+        from: process.env.EMAIL_USER || adminEmail,
+        subject: `[Liên hệ từ website] ${subject}`,
+        html: emailContent,
+        replyTo: email
+      };
+      
+      await sgMail.send(msg);
+      console.log('Email sent successfully using SendGrid');
+    } 
+    // Sử dụng Nodemailer + Gmail
+    else {
+      console.log('Using Nodemailer with Gmail to send email');
+      
+      // Kiểm tra biến môi trường EMAIL_USER và EMAIL_PASS
+      if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
+        console.warn('EMAIL_USER or EMAIL_PASS environment variables are missing!');
+        console.warn('Using fallback: adminEmail and default password');
+      }
+      
+      // Tạo transporter cho nodemailer (sử dụng Gmail)
+      const transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+          user: process.env.EMAIL_USER || adminEmail,
+          pass: process.env.EMAIL_PASS || 'app-password'
+        }
+      });
+      
+      // Cấu hình email
+      const mailOptions = {
+        from: `"Website Contact Form" <${process.env.EMAIL_USER || adminEmail}>`,
+        to: adminEmail,
+        subject: `[Liên hệ từ website] ${subject}`,
+        html: emailContent,
+        replyTo: email
+      };
+      
+      // Gửi email
+      await transporter.sendMail(mailOptions);
+      console.log('Email sent successfully using Nodemailer + Gmail');
+    }
+    
+    res.json({ success: true, message: 'Email đã được gửi thành công' });
+  } catch (error) {
+    console.error('Lỗi khi gửi email:', error);
+    // Thêm thông tin lỗi chi tiết để debug
+    const errorDetails = error.response ? 
+      `${error.response.body ? JSON.stringify(error.response.body) : error.message}` : 
+      error.message;
+    
+    res.status(500).json({ 
+      error: 'Không thể gửi email', 
+      details: errorDetails,
+      stack: process.env.NODE_ENV === 'development' ? error.stack : undefined
+    });
   }
 });
 

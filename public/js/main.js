@@ -555,12 +555,49 @@ function initContactForm() {
     const contactForm = document.getElementById('contact-form');
 
     if (contactForm) {
-        contactForm.addEventListener('submit', (e) => {
+        contactForm.addEventListener('submit', async (e) => {
             e.preventDefault();
-
-            // Trong ví dụ này, chúng ta chỉ giả lập việc gửi form thành công
-            alert('Cảm ơn bạn đã liên hệ! Tin nhắn của bạn đã được gửi thành công.');
-            contactForm.reset();
+            
+            // Lấy dữ liệu từ form
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const subject = document.getElementById('subject').value;
+            const message = document.getElementById('message').value;
+            
+            // Disable nút gửi và hiển thị trạng thái đang gửi
+            const submitButton = contactForm.querySelector('button[type="submit"]');
+            const originalButtonText = submitButton.textContent;
+            submitButton.disabled = true;
+            submitButton.textContent = 'Đang gửi...';
+            
+            try {
+                // Gửi dữ liệu đến API endpoint
+                const response = await fetch('/api/contact', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ name, email, subject, message })
+                });
+                
+                const result = await response.json();
+                
+                if (response.ok) {
+                    // Hiển thị thông báo thành công
+                    alert('Cảm ơn bạn đã liên hệ! Tin nhắn của bạn đã được gửi thành công.');
+                    contactForm.reset();
+                } else {
+                    // Hiển thị thông báo lỗi
+                    alert(`Lỗi: ${result.error || 'Không thể gửi tin nhắn'}`);
+                }
+            } catch (error) {
+                console.error('Lỗi khi gửi form:', error);
+                alert('Đã xảy ra lỗi khi gửi tin nhắn. Vui lòng thử lại sau.');
+            } finally {
+                // Khôi phục nút gửi
+                submitButton.disabled = false;
+                submitButton.textContent = originalButtonText;
+            }
         });
     }
 }

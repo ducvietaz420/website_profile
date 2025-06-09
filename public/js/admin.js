@@ -128,6 +128,7 @@ function fillPersonalForm(personal) {
     document.getElementById('email').value = personal.email || '';
     document.getElementById('phone').value = personal.phone || '';
     document.getElementById('address').value = personal.address || '';
+    document.getElementById('adminEmail').value = personal.adminEmail || '';
     document.getElementById('facebook').value = personal.facebook || '';
     document.getElementById('twitter').value = personal.twitter || '';
     document.getElementById('instagram').value = personal.instagram || '';
@@ -351,6 +352,7 @@ function initPersonalForm() {
                 email: document.getElementById('email').value,
                 phone: document.getElementById('phone').value,
                 address: document.getElementById('address').value,
+                adminEmail: document.getElementById('adminEmail').value,
                 facebook: document.getElementById('facebook').value,
                 twitter: document.getElementById('twitter').value,
                 instagram: document.getElementById('instagram').value,
