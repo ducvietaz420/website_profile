@@ -39,8 +39,30 @@
                     <input type="password" id="password" name="password" required>
                 </div>
                 <button type="submit" class="btn btn-primary">Đăng nhập</button>
+                <div class="form-links">
+                    <a href="#" id="forgot-password-link">Quên mật khẩu?</a>
+                </div>
             </form>
             <div class="error-message" id="login-error"></div>
+        </div>
+    </div>
+    
+    <!-- Forgot Password Form -->
+    <div class="login-container" id="forgot-password-screen" style="display: none;">
+        <div class="login-form">
+            <h1>Quên mật khẩu</h1>
+            <p>Nhập email admin để nhận link đặt lại mật khẩu.</p>
+            <form id="forgot-password-form">
+                <div class="form-group">
+                    <label for="admin-email">Email</label>
+                    <input type="email" id="admin-email" name="email" required>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">Gửi yêu cầu</button>
+                    <button type="button" class="btn btn-outline" id="back-to-login">Quay lại đăng nhập</button>
+                </div>
+            </form>
+            <div class="message" id="forgot-password-message"></div>
         </div>
     </div>
 
@@ -62,6 +84,7 @@
                             <li><a href="#" data-section="skills">Kỹ năng</a></li>
                             <li><a href="#" data-section="experience">Kinh nghiệm</a></li>
                             <li><a href="#" data-section="events">Sự kiện</a></li>
+                            <li><a href="#" data-section="change-password">Đổi mật khẩu</a></li>
                             <li><a href="#" data-section="preview">Xem trước</a></li>
                         </ul>
                     </nav>
@@ -337,6 +360,55 @@
                         </div>
                         <div class="actions-container">
                             <button type="button" class="btn btn-primary" id="save-events">Lưu tất cả sự kiện</button>
+                        </div>
+                    </section>
+
+                    <!-- Change Password Section -->
+                    <section id="change-password-section" class="admin-section" style="display: none;">
+                        <h2>Đổi mật khẩu</h2>
+                        <form id="change-password-form">
+                            <div class="form-group">
+                                <label for="current-password">Mật khẩu hiện tại</label>
+                                <input type="password" id="current-password" name="currentPassword" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="new-password">Mật khẩu mới</label>
+                                <input type="password" id="new-password" name="newPassword" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="confirm-password">Xác nhận mật khẩu mới</label>
+                                <input type="password" id="confirm-password" name="confirmPassword" required>
+                            </div>
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn-primary">Đổi mật khẩu</button>
+                            </div>
+                            <div class="error-message" id="change-password-error"></div>
+                            <div class="success-message" id="change-password-success"></div>
+                        </form>
+                    </section>
+
+                    <!-- Change Password Section -->
+                    <section id="change-password-section" class="admin-section" style="display: none;">
+                        <h2>Đổi mật khẩu</h2>
+                        <div class="change-password-container">
+                            <form id="change-password-form">
+                                <div class="form-group">
+                                    <label for="current-password">Mật khẩu hiện tại</label>
+                                    <input type="password" id="current-password" name="currentPassword" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="new-password">Mật khẩu mới</label>
+                                    <input type="password" id="new-password" name="newPassword" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="confirm-password">Xác nhận mật khẩu mới</label>
+                                    <input type="password" id="confirm-password" name="confirmPassword" required>
+                                </div>
+                                <div class="form-actions">
+                                    <button type="submit" class="btn btn-primary">Đổi mật khẩu</button>
+                                </div>
+                            </form>
+                            <div class="message" id="change-password-message"></div>
                         </div>
                     </section>
 

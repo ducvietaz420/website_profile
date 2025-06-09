@@ -44,6 +44,7 @@ function checkLoginStatus() {
  */
 function showLoginForm() {
     document.getElementById('login-screen').style.display = 'flex';
+    document.getElementById('forgot-password-screen').style.display = 'none';
     document.getElementById('admin-dashboard').style.display = 'none';
     
     // Khởi tạo form đăng nhập
@@ -81,6 +82,84 @@ function showLoginForm() {
             document.getElementById('login-error').textContent = 'Đã xảy ra lỗi khi đăng nhập';
         }
     });
+
+    // Khởi tạo link quên mật khẩu
+    const forgotPasswordLink = document.getElementById('forgot-password-link');
+    if (forgotPasswordLink) {
+        forgotPasswordLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            showForgotPasswordForm();
+        });
+    }
+}
+
+/**
+ * Hiển thị form quên mật khẩu
+ */
+function showForgotPasswordForm() {
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('forgot-password-screen').style.display = 'flex';
+    document.getElementById('admin-dashboard').style.display = 'none';
+    
+    // Reset form và thông báo
+    const forgotPasswordForm = document.getElementById('forgot-password-form');
+    if (forgotPasswordForm) {
+        forgotPasswordForm.reset();
+    }
+    
+    document.getElementById('forgot-password-message').textContent = '';
+    
+    // Khởi tạo sự kiện cho nút quay lại đăng nhập
+    const backToLoginBtn = document.getElementById('back-to-login');
+    if (backToLoginBtn) {
+        backToLoginBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            showLoginForm();
+        });
+    }
+    
+    // Khởi tạo form quên mật khẩu
+    if (forgotPasswordForm) {
+        forgotPasswordForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const email = document.getElementById('admin-email').value;
+            const messageElement = document.getElementById('forgot-password-message');
+            
+            // Reset thông báo
+            messageElement.textContent = '';
+            messageElement.className = 'message';
+            
+            try {
+                const response = await fetch('/api/auth/forgotPassword', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    // Hiển thị thông báo thành công
+                    messageElement.textContent = data.message || 'Hướng dẫn đặt lại mật khẩu đã được gửi đến email của bạn.';
+                    messageElement.className = 'message success-message';
+                    
+                    // Xóa giá trị email
+                    document.getElementById('admin-email').value = '';
+                } else {
+                    // Hiển thị thông báo lỗi
+                    messageElement.textContent = data.error || 'Không thể gửi email đặt lại mật khẩu.';
+                    messageElement.className = 'message error-message';
+                }
+            } catch (error) {
+                console.error('Forgot password error:', error);
+                messageElement.textContent = 'Đã xảy ra lỗi khi gửi yêu cầu đặt lại mật khẩu.';
+                messageElement.className = 'message error-message';
+            }
+        });
+    }
 }
 
 /**
@@ -329,6 +408,11 @@ function initForms() {
     if (typeof initImageUpload === 'function') {
         initImageUpload();
     }
+    
+    // Khởi tạo form đổi mật khẩu
+    if (typeof initChangePasswordForm === 'function') {
+        initChangePasswordForm();
+    }
 }
 
 /**
@@ -515,4 +599,61 @@ function initSkillItemEvents() {
             }
         });
     });
+}
+
+/**
+ * Khởi tạo form đổi mật khẩu
+ */
+function initChangePasswordForm() {
+    const changePasswordForm = document.getElementById('change-password-form');
+    
+    if (changePasswordForm) {
+        changePasswordForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            // Lấy dữ liệu từ form
+            const currentPassword = document.getElementById('current-password').value;
+            const newPassword = document.getElementById('new-password').value;
+            const confirmPassword = document.getElementById('confirm-password').value;
+            
+            // Xóa thông báo lỗi và thành công
+            document.getElementById('change-password-error').textContent = '';
+            document.getElementById('change-password-success').textContent = '';
+            
+            // Kiểm tra mật khẩu mới và xác nhận mật khẩu
+            if (newPassword !== confirmPassword) {
+                document.getElementById('change-password-error').textContent = 'Mật khẩu mới và xác nhận mật khẩu không khớp';
+                return;
+            }
+            
+            try {
+                // Gửi yêu cầu đổi mật khẩu
+                const response = await fetch('/api/auth/changePassword', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ currentPassword, newPassword })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    // Hiển thị thông báo thành công
+                    document.getElementById('change-password-success').textContent = data.message || 'Đổi mật khẩu thành công';
+                    
+                    // Xóa giá trị các trường
+                    document.getElementById('current-password').value = '';
+                    document.getElementById('new-password').value = '';
+                    document.getElementById('confirm-password').value = '';
+                } else {
+                    // Hiển thị thông báo lỗi
+                    document.getElementById('change-password-error').textContent = data.error || 'Đổi mật khẩu thất bại';
+                }
+            } catch (error) {
+                console.error('Change password error:', error);
+                document.getElementById('change-password-error').textContent = 'Đã xảy ra lỗi khi đổi mật khẩu';
+            }
+        });
+    }
 }

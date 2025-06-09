@@ -55,6 +55,11 @@ app.get('/admin', (req, res) => {
   res.sendFile(path.join(__dirname, '../public/admin.html'));
 });
 
+// Serve trang đặt lại mật khẩu
+app.get('/reset-password.html', (req, res) => {
+  res.sendFile(path.join(__dirname, '../public/reset-password.html'));
+});
+
 // Xử lý các route không tồn tại - gửi về trang chủ (SPA)
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '../public/index.html'));
