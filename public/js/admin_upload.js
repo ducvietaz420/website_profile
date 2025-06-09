@@ -14,6 +14,9 @@ function initImageUpload() {
     
     // Portfolio image upload
     initImageSelector('portfolio-image', 'select-portfolio-image', 'portfolio-image-upload', 'portfolio-image-preview');
+    
+    // Event image upload
+    initImageSelector('event-image', 'select-event-image', 'event-image-upload', 'event-image-preview');
 }
 
 /**

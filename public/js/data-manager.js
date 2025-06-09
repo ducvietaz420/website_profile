@@ -7,6 +7,8 @@ class DataManager {
         this.profileData = null;
         this.loaded = false;
         this.listeners = [];
+        // Thêm baseURL để đảm bảo kết nối đúng cổng
+        this.baseURL = 'http://localhost:3001';
     }
 
     /**
@@ -16,7 +18,7 @@ class DataManager {
     async loadData() {
         try {
             // Thử tải từ API trước
-            const response = await fetch('/api/profile');
+            const response = await fetch(`${this.baseURL}/api/profile`);
 
             if (!response.ok) {
                 throw new Error('API không khả dụng, fallback về file JSON');
@@ -113,7 +115,7 @@ class DataManager {
      */
     async updateData(section, data) {
         try {
-            const response = await fetch(`/api/profile/${section}`, {
+            const response = await fetch(`${this.baseURL}/api/profile/${section}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
@@ -150,7 +152,7 @@ class DataManager {
             const formData = new FormData();
             formData.append('image', file);
 
-            const response = await fetch('/api/upload', {
+            const response = await fetch(`${this.baseURL}/api/upload`, {
                 method: 'POST',
                 body: formData
             });

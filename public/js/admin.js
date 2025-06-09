@@ -314,6 +314,11 @@ function initForms() {
         initExperienceForm();
     }
     
+    // Khởi tạo form sự kiện
+    if (typeof initEventsForm === 'function') {
+        initEventsForm();
+    }
+    
     // Khởi tạo form portfolio (nếu có)
     if (typeof initPortfolioForm === 'function') {
         initPortfolioForm();

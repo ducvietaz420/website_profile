@@ -33,7 +33,7 @@ function initEventsForm() {
     
     // Sự kiện khi submit form events
     if (eventsForm) {
-        eventsForm.addEventListener('submit', (e) => {
+        eventsForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             
             // Lấy dữ liệu từ form
@@ -73,11 +73,22 @@ function initEventsForm() {
                 };
             }
             
-            // Cập nhật UI
-            fillEventsList(eventsItems);
-            
-            // Ẩn form
-            document.getElementById('events-form-container').style.display = 'none';
+            try {
+                // Cập nhật dữ liệu vào cơ sở dữ liệu
+                await window.dataManager.updateData('events', eventsItems);
+                
+                // Cập nhật UI
+                fillEventsList(eventsItems);
+                
+                // Hiển thị thông báo thành công
+                showNotification('success', 'Đã lưu sự kiện thành công');
+                
+                // Ẩn form
+                document.getElementById('events-form-container').style.display = 'none';
+            } catch (error) {
+                console.error('Error updating event:', error);
+                showNotification('error', 'Không thể lưu sự kiện');
+            }
         });
     }
     

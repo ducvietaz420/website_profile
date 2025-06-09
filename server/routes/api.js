@@ -47,7 +47,8 @@ const ensureDataFile = (req, res, next) => {
         { name: "HTML/CSS", level: 85 }
       ],
       experience: [],
-      portfolio: []
+      portfolio: [],
+      events: []
     };
     
     fs.writeFileSync(dataPath, JSON.stringify(initialData, null, 2), 'utf8');
@@ -112,6 +113,18 @@ router.put('/profile/portfolio', (req, res) => {
     res.json(data.portfolio);
   } catch (error) {
     res.status(500).json({ error: 'Không thể cập nhật portfolio' });
+  }
+});
+
+// Quản lý sự kiện
+router.put('/profile/events', (req, res) => {
+  try {
+    const data = JSON.parse(fs.readFileSync(dataPath, 'utf8'));
+    data.events = req.body;
+    fs.writeFileSync(dataPath, JSON.stringify(data, null, 2), 'utf8');
+    res.json(data.events);
+  } catch (error) {
+    res.status(500).json({ error: 'Không thể cập nhật sự kiện' });
   }
 });
 
