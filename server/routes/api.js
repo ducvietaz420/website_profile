@@ -157,8 +157,8 @@ const jwt = require('jsonwebtoken');
 // Xác thực admin
 router.post('/auth', (req, res) => {
   try {
-    const { password } = req.body;
-    
+  const { password } = req.body;
+  
     // Đọc dữ liệu từ file profile.json
     const data = JSON.parse(fs.readFileSync(dataPath, 'utf8'));
     const storedHashedPassword = data.personal.adminPassword;
@@ -185,8 +185,8 @@ router.post('/auth', (req, res) => {
           token,
           email: adminEmail
         });
-      } else {
-        res.status(401).json({ error: 'Mật khẩu không đúng' });
+  } else {
+    res.status(401).json({ error: 'Mật khẩu không đúng' });
       }
     });
   } catch (error) {
