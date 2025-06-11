@@ -14,51 +14,8 @@ function initExperienceForm() {
     // Sự kiện khi click nút "Thêm kinh nghiệm"
     if (addExperienceBtn) {
         addExperienceBtn.addEventListener('click', () => {
-            // Reset form
-            document.getElementById('experience-form').reset();
-            document.getElementById('experience-index').value = -1;
-            
-            // Hiển thị form
-            document.getElementById('experience-form-container').style.display = 'block';
-        });
-    }
-    
-    // Sự kiện khi click nút "Huỷ"
-    if (cancelExperienceBtn) {
-        cancelExperienceBtn.addEventListener('click', () => {
-            document.getElementById('experience-form-container').style.display = 'none';
-        });
-    }
-    
-    // Sự kiện khi submit form kinh nghiệm
-    if (experienceForm) {
-        experienceForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            
-            // Lấy dữ liệu từ form
-            const title = document.getElementById('experience-title').value;
-            const company = document.getElementById('experience-company').value;
-            const startDate = document.getElementById('experience-start').value;
-            const endDate = document.getElementById('experience-end').value;
-            const description = document.getElementById('experience-description').value;
-            const index = parseInt(document.getElementById('experience-index').value);
-            
-            // Lấy danh sách kinh nghiệm hiện tại
-            const experiences = window.dataManager.getData().experience || [];
-            
-            if (index === -1) {
-                // Thêm kinh nghiệm mới
-                experiences.push({ title, company, startDate, endDate, description });
-            } else {
-                // Cập nhật kinh nghiệm đã có
-                experiences[index] = { title, company, startDate, endDate, description };
-            }
-            
-            // Cập nhật UI
-            fillExperienceList(experiences);
-            
-            // Ẩn form
-            document.getElementById('experience-form-container').style.display = 'none';
+            // Hiển thị modal thêm kinh nghiệm
+            window.ModalManager.showExperienceForm();
         });
     }
     
@@ -94,16 +51,8 @@ function initExperienceItemEvents() {
             const experiences = window.dataManager.getData().experience || [];
             const exp = experiences[index];
             
-            // Điền dữ liệu vào form
-            document.getElementById('experience-title').value = exp.title;
-            document.getElementById('experience-company').value = exp.company;
-            document.getElementById('experience-start').value = exp.startDate;
-            document.getElementById('experience-end').value = exp.endDate || '';
-            document.getElementById('experience-description').value = exp.description;
-            document.getElementById('experience-index').value = index;
-            
-            // Hiển thị form
-            document.getElementById('experience-form-container').style.display = 'block';
+            // Hiển thị modal chỉnh sửa kinh nghiệm
+            window.ModalManager.showExperienceForm(exp, index);
         });
     });
     

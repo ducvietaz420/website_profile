@@ -14,81 +14,8 @@ function initEventsForm() {
     // Sự kiện khi click nút "Thêm sự kiện"
     if (addEventBtn) {
         addEventBtn.addEventListener('click', () => {
-            // Reset form
-            document.getElementById('events-form').reset();
-            document.getElementById('event-index').value = -1;
-            document.getElementById('event-image-preview').src = '';
-            
-            // Hiển thị form
-            document.getElementById('events-form-container').style.display = 'block';
-        });
-    }
-    
-    // Sự kiện khi click nút "Huỷ"
-    if (cancelEventBtn) {
-        cancelEventBtn.addEventListener('click', () => {
-            document.getElementById('events-form-container').style.display = 'none';
-        });
-    }
-    
-    // Sự kiện khi submit form events
-    if (eventsForm) {
-        eventsForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            // Lấy dữ liệu từ form
-            const title = document.getElementById('event-title').value;
-            const category = document.getElementById('event-category').value;
-            const description = document.getElementById('event-description').value;
-            const image = document.getElementById('event-image').value;
-            const services = document.getElementById('event-services').value;
-            const budget = document.getElementById('event-budget').value;
-            const duration = document.getElementById('event-duration').value;
-            const index = parseInt(document.getElementById('event-index').value);
-            
-            // Lấy danh sách events hiện tại
-            const eventsItems = window.dataManager.getData().events || [];
-            
-            if (index === -1) {
-                // Thêm sự kiện mới
-                eventsItems.push({ 
-                    title, 
-                    category, 
-                    description, 
-                    image, 
-                    services, 
-                    budget, 
-                    duration 
-                });
-            } else {
-                // Cập nhật sự kiện đã có
-                eventsItems[index] = { 
-                    title, 
-                    category, 
-                    description, 
-                    image, 
-                    services, 
-                    budget, 
-                    duration 
-                };
-            }
-            
-            try {
-                // Cập nhật dữ liệu vào cơ sở dữ liệu
-                await window.dataManager.updateData('events', eventsItems);
-                
-                // Cập nhật UI
-                fillEventsList(eventsItems);
-                
-                // Hiển thị thông báo thành công
-                showNotification('success', 'Đã lưu sự kiện thành công');
-                
-                // Ẩn form
-                document.getElementById('events-form-container').style.display = 'none';
-            } catch (error) {
-                console.error('Error updating event:', error);
-                showNotification('error', 'Không thể lưu sự kiện');
-            }
+            // Hiển thị modal thêm sự kiện
+            window.ModalManager.showEventForm();
         });
     }
     
@@ -124,25 +51,8 @@ function initEventsItemEvents() {
             const eventsItems = window.dataManager.getData().events || [];
             const item = eventsItems[index];
             
-            // Điền dữ liệu vào form
-            document.getElementById('event-title').value = item.title;
-            document.getElementById('event-category').value = item.category;
-            document.getElementById('event-description').value = item.description;
-            document.getElementById('event-image').value = item.image || '';
-            document.getElementById('event-services').value = item.services || '';
-            document.getElementById('event-budget').value = item.budget || '';
-            document.getElementById('event-duration').value = item.duration || '';
-            document.getElementById('event-index').value = index;
-            
-            // Cập nhật preview
-            if (item.image) {
-                document.getElementById('event-image-preview').src = item.image;
-            } else {
-                document.getElementById('event-image-preview').src = '';
-            }
-            
-            // Hiển thị form
-            document.getElementById('events-form-container').style.display = 'block';
+            // Hiển thị modal chỉnh sửa sự kiện
+            window.ModalManager.showEventForm(item, index);
         });
     });
     
@@ -190,8 +100,8 @@ function fillEventsList(eventsItems) {
                 <p class="description">${item.description}</p>
             </div>
             <div class="item-actions">
-                <button type="button" class="btn btn-sm btn-outline edit-btn" data-index="${index}">Chỉnh sửa</button>
-                <button type="button" class="btn btn-sm btn-danger delete-btn" data-index="${index}">Xóa</button>
+                <button type="button" class="btn btn-sm btn-outline edit-btn" data-index="${index}"><i class="fas fa-edit"></i> Chỉnh sửa</button>
+                <button type="button" class="btn btn-sm btn-danger delete-btn" data-index="${index}"><i class="fas fa-trash-alt"></i> Xóa</button>
             </div>
         `;
         

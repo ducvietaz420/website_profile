@@ -8,28 +8,265 @@
     bottom: -2px;
     left: 0;
     width: 100%;
-    height: 100px;
+    height: 150px;
     background-color: var(--bg-color);
-    clip-path: ellipse(50% 50% at 50% 100%);
-    z-index: 1;
+    clip-path: ellipse(70% 70% at 50% 100%);
+    z-index: 5;
     pointer-events: none;
+}
+
+.hero-curve::after {
+    content: '';
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    height: 20px;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0), var(--bg-color));
+    z-index: 2;
+}
+
+.mouse-icon-container {
+    position: absolute;
+    bottom: 25px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 50px;
+    height: 50px;
+    background: var(--primary-gradient);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 5px 20px rgba(102, 126, 234, 0.3);
+    z-index: 10;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    animation: bounce 2s infinite;
+    border: 3px solid rgba(255, 255, 255, 0.7);
+    pointer-events: auto;
+}
+
+.mouse-icon-container::before {
+    content: '';
+    position: absolute;
+    top: -5px;
+    left: -5px;
+    right: -5px;
+    bottom: -5px;
+    background: var(--primary-gradient);
+    border-radius: 50%;
+    z-index: -1;
+    opacity: 0.4;
+    filter: blur(10px);
+    animation: pulse 2s infinite alternate;
+}
+
+@keyframes pulse {
+    0% {
+        opacity: 0.4;
+        transform: scale(1);
+    }
+    100% {
+        opacity: 0.6;
+        transform: scale(1.1);
+    }
+}
+
+.mouse-icon-container:hover {
+    transform: translateX(-50%) scale(1.1);
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+}
+
+.mouse-icon-container:hover::before {
+    opacity: 0.7;
+    filter: blur(15px);
+}
+
+.mouse-icon {
+    color: white;
+    font-size: 20px;
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateX(-50%) translateY(0);
+    }
+    40% {
+        transform: translateX(-50%) translateY(-10px);
+    }
+    60% {
+        transform: translateX(-50%) translateY(-5px);
+    }
 }
 
 .section-curve {
     position: absolute;
-    bottom: -50px;
+    bottom: -60px;
     left: 0;
     width: 100%;
-    height: 100px;
+    height: 150px;
     background-color: var(--bg-color);
-    clip-path: ellipse(50% 50% at 50% 100%);
+    clip-path: ellipse(60% 60% at 50% 100%);
     z-index: 5;
     pointer-events: none;
+    transform: translateY(0);
 }
 
 .section {
     position: relative;
     overflow: visible;
+}
+
+/* Hiệu ứng Glow cho các phần tử */
+.glow-effect {
+    position: relative;
+    overflow: hidden;
+}
+
+.glow-effect::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 80%;
+    height: 100%;
+    background: linear-gradient(
+        to right,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0.3) 50%,
+        rgba(255, 255, 255, 0) 100%
+    );
+    transform: skewX(-25deg);
+    transition: all 0.75s;
+}
+
+.glow-effect:hover::after {
+    left: 120%;
+}
+
+/* Hiệu ứng nổi cho các phần tử khi hover */
+.float-on-hover {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.float-on-hover:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+}
+
+/* Hiệu ứng bóng đổ gradient */
+.gradient-shadow {
+    position: relative;
+}
+
+.gradient-shadow::after {
+    content: '';
+    position: absolute;
+    bottom: -20px;
+    left: 10%;
+    width: 80%;
+    height: 20px;
+    background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0) 70%);
+    z-index: -1;
+    filter: blur(5px);
+}
+
+/* Hiệu ứng sóng nước khi hover */
+.ripple-effect {
+    position: relative;
+    overflow: hidden;
+}
+
+.ripple-effect::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 10px;
+    height: 10px;
+    background: rgba(255, 255, 255, 0.7);
+    opacity: 0;
+    border-radius: 50%;
+    transform: scale(1);
+    transition: all 0s;
+    z-index: 1;
+}
+
+.ripple-effect:hover::before {
+    opacity: 0.3;
+    transform: scale(70);
+    transition: all 0.8s ease-out;
+}
+
+/* Hiệu ứng Shine cho các thẻ dịch vụ */
+.service-card {
+    position: relative;
+    overflow: hidden;
+}
+
+.service-card::after {
+    content: '';
+    position: absolute;
+    top: -110%;
+    left: -210%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+        to right,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0.2) 20%,
+        rgba(255, 255, 255, 0.5) 60%,
+        rgba(255, 255, 255, 0) 100%
+    );
+    transform: rotate(45deg);
+    transition: all 0.7s;
+    z-index: 0;
+}
+
+.service-card:hover::after {
+    top: -30%;
+    left: -30%;
+    transition-duration: 0.7s;
+}
+
+/* Hiệu ứng hạt bụi sáng cho hero section */
+.particles-effect {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: 0;
+}
+
+.particle {
+    position: absolute;
+    width: 5px;
+    height: 5px;
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    animation: float-particles 15s infinite ease-in-out;
+}
+
+@keyframes float-particles {
+    0% {
+        transform: translateY(0) translateX(0);
+        opacity: 0;
+    }
+    20% {
+        opacity: 0.8;
+    }
+    80% {
+        opacity: 0.8;
+    }
+    100% {
+        transform: translateY(-100px) translateX(50px);
+        opacity: 0;
+    }
 }
 
 /* Hiệu ứng Shattering (vỡ) */
@@ -86,110 +323,59 @@
     border-radius: 10px;
 }
 
-.portfolio-overlay {
+/* Hiệu ứng đổ bóng neon cho các nút */
+.btn-neon {
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-neon::before {
+    content: '';
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 123, 255, 0.7);
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    top: 2px;
+    left: 2px;
+    right: 2px;
+    bottom: 2px;
+    z-index: -1;
+    filter: blur(15px);
+    background: var(--primary-gradient);
     opacity: 0;
     transition: opacity 0.3s ease;
-    border-radius: 10px;
 }
 
-.portfolio-item:hover .portfolio-overlay {
-    opacity: 1;
+.btn-neon:hover::before {
+    opacity: 0.7;
 }
 
-.overlay-content {
-    text-align: center;
-    color: white;
-    padding: 20px;
-    transform: translateY(20px);
-    transition: transform 0.3s ease;
-}
-
-.portfolio-item:hover .overlay-content {
-    transform: translateY(0);
-}
-
-.overlay-content h4 {
-    margin: 0 0 10px 0;
-    font-size: 1.5rem;
-}
-
-.overlay-content p {
-    margin: 0;
-    font-size: 1rem;
-}
-
-/* Hiệu ứng chuyển động section */
-section {
+/* Thêm class cho các phần tử yêu cầu hiệu ứng */
+.hero-content h1, 
+.hero-content h2, 
+.hero-content p, 
+.hero-content .cta-buttons,
+.section-header h2,
+.btn-primary {
     position: relative;
-    z-index: 1;
 }
 
-.about-section,
-.skills-section,
-.experience-section,
-.portfolio-section,
-.contact-section {
+.service-icon {
     position: relative;
-    z-index: 2;
-    overflow: visible;
 }
 
-/* Tạo chuyển động hình sóng cho section */
-.wave-divider {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    overflow: hidden;
-    line-height: 0;
-}
-
-.wave-divider svg {
-    position: relative;
-    display: block;
-    width: calc(100% + 1.3px);
-    height: 70px;
-}
-
-.wave-divider .shape-fill {
-    fill: var(--primary-color);
-    opacity: 0.1;
-}
-
-/* Hiệu ứng shine cho các card */
-.shine-effect {
-    position: relative;
-    overflow: hidden;
-}
-
-.shine-effect::before {
+.service-icon::before {
     content: '';
     position: absolute;
     top: 0;
-    left: -100%;
-    width: 50%;
-    height: 100%;
-    background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.3) 100%);
-    transform: skewX(-25deg);
-    transition: all 0.75s;
-    z-index: 1;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: inherit;
+    filter: blur(15px);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: -1;
+    border-radius: inherit;
 }
 
-.shine-effect:hover::before {
-    animation: shine 1.5s;
-}
-
-@keyframes shine {
-    100% {
-        left: 125%;
-    }
+.service-card:hover .service-icon::before {
+    opacity: 0.7;
 }

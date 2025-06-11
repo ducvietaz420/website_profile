@@ -46,6 +46,10 @@ class AnimationManager {
         this.initParallaxEffect();
         this.initCurvedSlider();
         this.initShatteringEffect();
+        this.initCounters();
+        this.init3DHoverEffect();
+        this.initColorScroll();
+        this.initScrollEffects();
     }
 
     /**
@@ -448,10 +452,15 @@ class AnimationManager {
 
         if (!heroSection || !aboutSection) return;
 
-        // Thêm đường cong cho hero section
-        const curve = document.createElement('div');
-        curve.className = 'hero-curve';
-        heroSection.appendChild(curve);
+        // Kiểm tra nếu hero-curve đã tồn tại từ HTML
+        let curve = heroSection.querySelector('.hero-curve');
+        
+        // Nếu không tồn tại, mới tạo mới (có thể loại bỏ đoạn này vì chúng ta đã thêm vào HTML)
+        if (!curve) {
+            curve = document.createElement('div');
+            curve.className = 'hero-curve';
+            heroSection.appendChild(curve);
+        }
 
         // Thêm hiệu ứng chuyển động mượt cho đường cong
         const tl = gsap.timeline({
@@ -459,14 +468,34 @@ class AnimationManager {
                 trigger: heroSection,
                 start: 'bottom bottom',
                 end: 'bottom top-=30%',
-                scrub: true
+                scrub: 0.5,
             }
         });
 
         tl.to(curve, {
-            y: -50,
-            ease: "power3.out"
+            y: -15, // Giảm giá trị chuyển động xuống để tránh bị xấu
+            ease: "power2.inOut"
         });
+
+        // Hiệu ứng đặc biệt cho icon chuột
+        const mouseIcon = heroSection.querySelector('.mouse-icon-container');
+        if (mouseIcon) {
+            // Đảm bảo biểu tượng chuột hiển thị đúng ngay từ đầu
+            mouseIcon.style.opacity = '1';
+            mouseIcon.style.transform = 'translateX(-50%)';
+
+            gsap.to(mouseIcon, {
+                scrollTrigger: {
+                    trigger: heroSection,
+                    start: 'bottom bottom+=100',
+                    end: 'bottom top',
+                    scrub: true
+                },
+                opacity: 0,
+                y: -30,
+                ease: "power2.inOut"
+            });
+        }
 
         // Thêm hiệu ứng cho hero content
         const heroContent = heroSection.querySelector('.hero-content');
@@ -495,14 +524,15 @@ class AnimationManager {
                 sectionCurve.className = 'section-curve';
                 prevSection.appendChild(sectionCurve);
 
-                // Hiệu ứng Parallax giữa các section
+                // Hiệu ứng Parallax giữa các section - giảm chuyển động để tránh hiển thị xấu
                 gsap.to(sectionCurve, {
-                    y: -30,
+                    y: -10, // Giảm giá trị chuyển động xuống để tránh bị xấu
+                    ease: "power2.inOut",
                     scrollTrigger: {
                         trigger: section,
                         start: "top bottom",
                         end: "top 70%",
-                        scrub: true
+                        scrub: 0.5
                     }
                 });
             }
@@ -627,6 +657,151 @@ class AnimationManager {
                 }
             });
         });
+    }
+
+    /**
+     * Khởi tạo đếm số cho các thống kê
+     */
+    initCounters() {
+        // Function để bắt đầu animation đếm số
+        const startCounter = (el) => {
+            const target = parseInt(el.getAttribute('data-count'));
+            const duration = 2000; // 2 giây
+            const step = target / (duration / 50); // mỗi 50ms tăng bao nhiêu
+            let current = 0;
+            
+            const counter = setInterval(() => {
+                current += step;
+                if (current >= target) {
+                    el.textContent = target;
+                    clearInterval(counter);
+                } else {
+                    el.textContent = Math.floor(current);
+                }
+            }, 50);
+        };
+        
+        // Chỉ khởi chạy animation khi element xuất hiện trong viewport
+        const counterElements = document.querySelectorAll('.counter');
+        
+        if (typeof IntersectionObserver !== 'undefined') {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        startCounter(entry.target);
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.5 });
+            
+            counterElements.forEach(counter => {
+                observer.observe(counter);
+            });
+        } else {
+            // Fallback cho trình duyệt không hỗ trợ IntersectionObserver
+            counterElements.forEach(counter => {
+                startCounter(counter);
+            });
+        }
+    }
+
+    /**
+     * Hiệu ứng hover 3D cho service cards
+     */
+    init3DHoverEffect() {
+        const cards = document.querySelectorAll('.service-card');
+        
+        cards.forEach(card => {
+            card.addEventListener('mousemove', e => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                
+                const rotateY = (x - centerX) / 20; // Giảm số chia để tăng hiệu ứng
+                const rotateX = (centerY - y) / 20;
+                
+                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(10px) translateY(-10px)`;
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateZ(0) translateY(0)';
+            });
+        });
+    }
+
+    /**
+     * Hiệu ứng màu sắc khi cuộn trang
+     */
+    initColorScroll() {
+        if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+            // Hiệu ứng thay đổi màu header khi cuộn
+            gsap.to('.header', {
+                scrollTrigger: {
+                    trigger: '.hero-section',
+                    start: 'top top',
+                    end: 'bottom top',
+                    scrub: true
+                },
+                backgroundColor: 'rgba(255, 255, 255, 0.95)',
+                boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1)',
+                height: '70px'
+            });
+            
+            // Hiệu ứng cho service cards khi cuộn
+            const serviceCards = document.querySelectorAll('.service-card');
+            serviceCards.forEach((card, index) => {
+                gsap.from(card, {
+                    scrollTrigger: {
+                        trigger: card,
+                        start: 'top bottom-=100',
+                        toggleActions: 'play none none reverse'
+                    },
+                    y: 100,
+                    opacity: 0,
+                    duration: 0.8,
+                    delay: index * 0.1,
+                    ease: 'power3.out'
+                });
+            });
+        }
+    }
+
+    /**
+     * Hiệu ứng cuộn cho các section
+     */
+    initScrollEffects() {
+        if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+            // Hiệu ứng parallax cho hero section
+            gsap.to('.hero-bg', {
+                scrollTrigger: {
+                    trigger: '.hero-section',
+                    start: 'top top',
+                    end: 'bottom top',
+                    scrub: true
+                },
+                y: 100,
+                ease: 'none'
+            });
+            
+            // Hiệu ứng scale cho các heading khi cuộn
+            const sectionHeaders = document.querySelectorAll('.section-header h2');
+            sectionHeaders.forEach(header => {
+                gsap.from(header, {
+                    scrollTrigger: {
+                        trigger: header,
+                        start: 'top bottom-=100',
+                        toggleActions: 'play none none reverse'
+                    },
+                    scale: 0.8,
+                    opacity: 0,
+                    duration: 1,
+                    ease: 'power3.out'
+                });
+            });
+        }
     }
 
     /**

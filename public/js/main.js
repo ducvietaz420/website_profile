@@ -32,6 +32,9 @@ function initWebsite() {
 
     // Cập nhật năm hiện tại trong footer
     updateCurrentYear();
+
+    // Khởi tạo cuộn mượt
+    initSmoothScrolling();
 }
 
 /**
@@ -657,4 +660,53 @@ function getCategoryLabel(category) {
     };
 
     return categoryMap[category] || 'Khác';
+}
+
+/**
+ * Xử lý cuộn mượt cho các liên kết
+ */
+function initSmoothScrolling() {
+    // Chọn tất cả các liên kết có class js-scroll-trigger
+    const scrollTriggers = document.querySelectorAll('.js-scroll-trigger');
+    
+    scrollTriggers.forEach(trigger => {
+        trigger.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            // Lấy ID của phần tử mục tiêu từ href
+            const targetId = this.getAttribute('href');
+            const targetElement = document.querySelector(targetId);
+            
+            if (targetElement) {
+                // Thêm hiệu ứng đặc biệt cho biểu tượng chuột khi nhấp vào
+                if (this.classList.contains('mouse-icon-container')) {
+                    this.style.transform = 'translateX(-50%) scale(0.8)';
+                    setTimeout(() => {
+                        this.style.transform = 'translateX(-50%)';
+                    }, 300);
+                }
+                
+                // Cuộn mượt đến phần tử mục tiêu
+                window.scrollTo({
+                    top: targetElement.offsetTop - 80, // Trừ chiều cao của header
+                    behavior: 'smooth'
+                });
+            }
+        });
+    });
+    
+    // Xử lý hiển thị/ẩn biểu tượng chuột khi cuộn
+    const mouseIcon = document.querySelector('.mouse-icon-container');
+    if (mouseIcon) {
+        window.addEventListener('scroll', () => {
+            // Khi cuộn xuống một khoảng nhất định, ẩn biểu tượng chuột
+            if (window.scrollY > 300) {
+                mouseIcon.style.opacity = '0';
+                mouseIcon.style.transform = 'translateX(-50%) translateY(20px)';
+            } else {
+                mouseIcon.style.opacity = '1';
+                mouseIcon.style.transform = 'translateX(-50%) translateY(0)';
+            }
+        });
+    }
 }

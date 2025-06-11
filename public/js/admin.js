@@ -248,20 +248,19 @@ function fillSkillsList(skills) {
                 <span class="skill-name">${skill.name}</span>
                 <span class="skill-level">${skill.level}%</span>
             </div>
+            <div class="skill-bar">
+                <div class="skill-progress" style="width: ${skill.level}%"></div>
+            </div>
             <div class="skill-actions">
-                <button type="button" class="edit-btn" data-index="${index}" title="Chỉnh sửa">
-                    <i class="fa-solid fa-edit"></i>
-                </button>
-                <button type="button" class="delete-btn" data-index="${index}" title="Xóa">
-                    <i class="fa-solid fa-trash"></i>
-                </button>
+                <button type="button" class="btn btn-sm btn-outline edit-btn" data-index="${index}"><i class="fas fa-edit"></i> Sửa</button>
+                <button type="button" class="btn btn-sm btn-danger delete-btn" data-index="${index}"><i class="fas fa-trash-alt"></i> Xóa</button>
             </div>
         `;
         
         skillsList.appendChild(skillItem);
     });
     
-    // Khởi tạo sự kiện cho các nút chỉnh sửa và xóa
+    // Khởi tạo lại sự kiện cho các nút
     initSkillItemEvents();
 }
 
@@ -489,50 +488,8 @@ function initSkillForm() {
     // Sự kiện khi click nút "Thêm kỹ năng"
     if (addSkillBtn) {
         addSkillBtn.addEventListener('click', () => {
-            // Reset form
-            document.getElementById('skill-form').reset();
-            document.getElementById('skill-index').value = -1;
-            document.getElementById('skill-range').value = 0;
-            document.getElementById('skill-value').textContent = '0%';
-            
-            // Hiển thị form
-            document.getElementById('skill-form-container').style.display = 'block';
-        });
-    }
-    
-    // Sự kiện khi click nút "Huỷ"
-    if (cancelSkillBtn) {
-        cancelSkillBtn.addEventListener('click', () => {
-            document.getElementById('skill-form-container').style.display = 'none';
-        });
-    }
-    
-    // Sự kiện khi submit form kỹ năng
-    if (skillForm) {
-        skillForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            
-            // Lấy dữ liệu từ form
-            const name = document.getElementById('skill-name').value;
-            const level = parseInt(document.getElementById('skill-level').value);
-            const index = parseInt(document.getElementById('skill-index').value);
-            
-            // Lấy danh sách kỹ năng hiện tại
-            const skills = window.dataManager.getData().skills || [];
-            
-            if (index === -1) {
-                // Thêm kỹ năng mới
-                skills.push({ name, level });
-            } else {
-                // Cập nhật kỹ năng đã có
-                skills[index] = { name, level };
-            }
-            
-            // Cập nhật UI
-            fillSkillsList(skills);
-            
-            // Ẩn form
-            document.getElementById('skill-form-container').style.display = 'none';
+            // Hiển thị modal thêm kỹ năng
+            window.ModalManager.showSkillForm();
         });
     }
     
@@ -568,15 +525,8 @@ function initSkillItemEvents() {
             const skills = window.dataManager.getData().skills || [];
             const skill = skills[index];
             
-            // Điền dữ liệu vào form
-            document.getElementById('skill-name').value = skill.name;
-            document.getElementById('skill-level').value = skill.level;
-            document.getElementById('skill-range').value = skill.level;
-            document.getElementById('skill-value').textContent = `${skill.level}%`;
-            document.getElementById('skill-index').value = index;
-            
-            // Hiển thị form
-            document.getElementById('skill-form-container').style.display = 'block';
+            // Hiển thị modal chỉnh sửa kỹ năng
+            window.ModalManager.showSkillForm(skill, index);
         });
     });
     

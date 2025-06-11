@@ -26,21 +26,22 @@
     <script src="js/admin_experience.js" defer></script>
     <script src="js/admin_events.js" defer></script>
     <script src="js/admin_upload.js" defer></script>
+    <script src="js/admin_modal.js" defer></script>
 </head>
 
 <body>
     <!-- Login Screen -->
-    <div class="login-container" id="login-screen">
+    <div class="login-container" id="login-screen" style="display: none;">
         <div class="login-form">
-            <h1>Đăng nhập quản trị</h1>
+            <h1><i class="fas fa-user-shield"></i> Đăng nhập quản trị</h1>
             <form id="login-form">
                 <div class="form-group">
-                    <label for="password">Mật khẩu</label>
+                    <label for="password"><i class="fas fa-lock"></i> Mật khẩu</label>
                     <input type="password" id="password" name="password" required>
                 </div>
-                <button type="submit" class="btn btn-primary">Đăng nhập</button>
+                <button type="submit" class="btn btn-primary"><i class="fas fa-sign-in-alt"></i> Đăng nhập</button>
                 <div class="form-links">
-                    <a href="#" id="forgot-password-link">Quên mật khẩu?</a>
+                    <a href="#" id="forgot-password-link"><i class="fas fa-question-circle"></i> Quên mật khẩu?</a>
                 </div>
             </form>
             <div class="error-message" id="login-error"></div>
@@ -50,16 +51,16 @@
     <!-- Forgot Password Form -->
     <div class="login-container" id="forgot-password-screen" style="display: none;">
         <div class="login-form">
-            <h1>Quên mật khẩu</h1>
+            <h1><i class="fas fa-key"></i> Quên mật khẩu</h1>
             <p>Nhập email admin để nhận link đặt lại mật khẩu.</p>
             <form id="forgot-password-form">
                 <div class="form-group">
-                    <label for="admin-email">Email</label>
+                    <label for="admin-email"><i class="fas fa-envelope"></i> Email</label>
                     <input type="email" id="admin-email" name="email" required>
                 </div>
                 <div class="form-actions">
-                    <button type="submit" class="btn btn-primary">Gửi yêu cầu</button>
-                    <button type="button" class="btn btn-outline" id="back-to-login">Quay lại đăng nhập</button>
+                    <button type="submit" class="btn btn-primary"><i class="fas fa-paper-plane"></i> Gửi yêu cầu</button>
+                    <button type="button" class="btn btn-outline" id="back-to-login"><i class="fas fa-arrow-left"></i> Quay lại đăng nhập</button>
                 </div>
             </form>
             <div class="message" id="forgot-password-message"></div>
@@ -67,11 +68,11 @@
     </div>
 
     <!-- Admin Dashboard -->
-    <div class="admin-dashboard" id="admin-dashboard" style="display: none;">
+    <div class="admin-dashboard" id="admin-dashboard">
         <header class="admin-header">
             <div class="container">
-                <h1>Quản lý Event Organizer</h1>
-                <button id="logout-btn" class="btn btn-outline">Đăng xuất</button>
+                <h1><i class="fas fa-calendar-check"></i> Quản lý Event Organizer</h1>
+                <button id="logout-btn" class="btn btn-outline"><i class="fas fa-sign-out-alt"></i> Đăng xuất</button>
             </div>
         </header>
 
@@ -80,12 +81,12 @@
                 <aside class="sidebar">
                     <nav class="admin-nav">
                         <ul>
-                            <li><a href="#" data-section="personal" class="active">Thông tin cá nhân</a></li>
-                            <li><a href="#" data-section="skills">Kỹ năng</a></li>
-                            <li><a href="#" data-section="experience">Kinh nghiệm</a></li>
-                            <li><a href="#" data-section="events">Sự kiện</a></li>
-                            <li><a href="#" data-section="change-password">Đổi mật khẩu</a></li>
-                            <li><a href="#" data-section="preview">Xem trước</a></li>
+                            <li><a href="#" data-section="personal" class="active"><i class="fas fa-user"></i> Thông tin cá nhân</a></li>
+                            <li><a href="#" data-section="skills"><i class="fas fa-chart-bar"></i> Kỹ năng</a></li>
+                            <li><a href="#" data-section="experience"><i class="fas fa-briefcase"></i> Kinh nghiệm</a></li>
+                            <li><a href="#" data-section="events"><i class="fas fa-calendar-alt"></i> Sự kiện</a></li>
+                            <li><a href="#" data-section="change-password"><i class="fas fa-key"></i> Đổi mật khẩu</a></li>
+                            <li><a href="#" data-section="preview"><i class="fas fa-eye"></i> Xem trước</a></li>
                         </ul>
                     </nav>
                 </aside>
@@ -93,132 +94,130 @@
                 <main class="admin-main">
                     <!-- Personal Information Section -->
                     <section id="personal-section" class="admin-section">
-                        <h2>Thông tin cá nhân</h2>
+                        <h2><i class="fas fa-user-circle"></i> Thông tin cá nhân</h2>
                         <form id="personal-form">
                             <div class="form-group">
-                                <label for="name">Họ và tên</label>
+                                <label for="name"><i class="fas fa-user"></i> Họ và tên</label>
                                 <input type="text" id="name" name="name" required>
                             </div>
                             <div class="form-group">
-                                <label for="title">Chức danh</label>
+                                <label for="title"><i class="fas fa-tag"></i> Chức danh</label>
                                 <input type="text" id="title" name="title" required>
                             </div>
                             <div class="form-group">
-                                <label for="bio">Giới thiệu ngắn</label>
+                                <label for="bio"><i class="fas fa-comment"></i> Giới thiệu ngắn</label>
                                 <textarea id="bio" name="bio" required></textarea>
                             </div>
                             <div class="form-group">
-                                <label for="about">Giới thiệu chi tiết</label>
+                                <label for="about"><i class="fas fa-file-alt"></i> Giới thiệu chi tiết</label>
                                 <textarea id="about" name="about" rows="5" required></textarea>
                             </div>
                             <div class="form-row">
                                 <div class="form-group">
-                                    <label for="birthday">Ngày sinh</label>
+                                    <label for="birthday"><i class="fas fa-birthday-cake"></i> Ngày sinh</label>
                                     <input type="text" id="birthday" name="birthday">
                                 </div>
                                 <div class="form-group">
-                                    <label for="location">Địa điểm</label>
+                                    <label for="location"><i class="fas fa-map-marker-alt"></i> Địa điểm</label>
                                     <input type="text" id="location" name="location">
                                 </div>
                             </div>
                             <div class="form-row">
                                 <div class="form-group">
-                                    <label for="email">Email</label>
+                                    <label for="email"><i class="fas fa-envelope"></i> Email</label>
                                     <input type="email" id="email" name="email">
                                 </div>
                                 <div class="form-group">
-                                    <label for="phone">Điện thoại</label>
+                                    <label for="phone"><i class="fas fa-phone"></i> Điện thoại</label>
                                     <input type="text" id="phone" name="phone">
                                 </div>
                             </div>
                             <div class="form-row">
                                 <div class="form-group">
-                                    <label for="adminEmail">Email nhận liên hệ</label>
+                                    <label for="adminEmail"><i class="fas fa-at"></i> Email nhận liên hệ</label>
                                     <input type="email" id="adminEmail" name="adminEmail">
                                     <small>Email này sẽ nhận thông tin từ form liên hệ</small>
                                 </div>
                             <div class="form-group">
-                                <label for="address">Địa chỉ</label>
+                                <label for="address"><i class="fas fa-home"></i> Địa chỉ</label>
                                 <input type="text" id="address" name="address">
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label>Avatar</label>
+                                <label><i class="fas fa-portrait"></i> Avatar</label>
                                 <div class="image-upload">
                                     <div class="image-preview">
-                                        <img id="avatar-preview" src="" alt="Avatar Preview">
+                                        <img id="avatar-preview" src="assets/images/default-avatar.jpg" alt="Avatar Preview">
                                     </div>
                                     <div class="upload-controls">
                                         <input type="file" id="avatar-upload" accept="image/*">
-                                        <button type="button" class="btn btn-secondary" id="select-avatar">Chọn
+                                        <button type="button" class="btn btn-secondary" id="select-avatar"><i class="fas fa-upload"></i> Chọn
                                             ảnh</button>
                                     </div>
                                 </div>
-                                <input type="hidden" id="avatar" name="avatar">
+                                <input type="hidden" id="avatar" name="avatar" value="assets/images/default-avatar.jpg">
                             </div>
                             <div class="form-group">
-                                <label>Ảnh giới thiệu</label>
+                                <label><i class="fas fa-image"></i> Ảnh giới thiệu</label>
                                 <div class="image-upload">
                                     <div class="image-preview">
-                                        <img id="about-image-preview" src="" alt="About Image Preview">
+                                        <img id="about-image-preview" src="assets/images/default-about.jpg" alt="About Image Preview">
                                     </div>
                                     <div class="upload-controls">
                                         <input type="file" id="about-image-upload" accept="image/*">
-                                        <button type="button" class="btn btn-secondary" id="select-about-image">Chọn
+                                        <button type="button" class="btn btn-secondary" id="select-about-image"><i class="fas fa-upload"></i> Chọn
                                             ảnh</button>
                                     </div>
                                 </div>
-                                <input type="hidden" id="about-image" name="aboutImage">
+                                <input type="hidden" id="about-image" name="aboutImage" value="assets/images/default-about.jpg">
                             </div>
                             <div class="form-group">
-                                <label>Liên kết mạng xã hội</label>
+                                <label><i class="fas fa-share-alt"></i> Liên kết mạng xã hội</label>
                                 <div class="form-row">
                                     <div class="form-group">
-                                        <label for="facebook">Facebook</label>
+                                        <label for="facebook"><i class="fab fa-facebook"></i> Facebook</label>
                                         <input type="url" id="facebook" name="facebook">
                                     </div>
                                     <div class="form-group">
-                                        <label for="twitter">Twitter</label>
+                                        <label for="twitter"><i class="fab fa-twitter"></i> Twitter</label>
                                         <input type="url" id="twitter" name="twitter">
                                     </div>
                                 </div>
                                 <div class="form-row">
                                     <div class="form-group">
-                                        <label for="instagram">Instagram</label>
+                                        <label for="instagram"><i class="fab fa-instagram"></i> Instagram</label>
                                         <input type="url" id="instagram" name="instagram">
                                     </div>
                                     <div class="form-group">
-                                        <label for="linkedin">LinkedIn</label>
+                                        <label for="linkedin"><i class="fab fa-linkedin"></i> LinkedIn</label>
                                         <input type="url" id="linkedin" name="linkedin">
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="github">GitHub</label>
+                                    <label for="github"><i class="fab fa-github"></i> GitHub</label>
                                     <input type="url" id="github" name="github">
                                 </div>
                             </div>
-                            <button type="submit" class="btn btn-primary">Lưu thông tin</button>
+                            <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Lưu thông tin</button>
                         </form>
                     </section>
 
                     <!-- Skills Section -->
                     <section id="skills-section" class="admin-section" style="display: none;">
-                        <h2>Kỹ năng</h2>
+                        <h2><i class="fas fa-chart-bar"></i> Kỹ năng</h2>
                         <div class="skills-container">
-                            <div id="skills-list">
-                                <!-- Skills will be added dynamically -->
-                            </div>
-                            <button type="button" class="btn btn-secondary" id="add-skill">Thêm kỹ năng</button>
+                            <div id="skills-list"></div>
+                            <button type="button" class="btn btn-secondary" id="add-skill"><i class="fas fa-plus"></i> Thêm kỹ năng</button>
                         </div>
                         <div class="skill-form-container" id="skill-form-container" style="display: none;">
-                            <h3>Thêm/Chỉnh sửa kỹ năng</h3>
+                            <h3><i class="fas fa-edit"></i> Thêm/Chỉnh sửa kỹ năng</h3>
                             <form id="skill-form">
                                 <div class="form-group">
-                                    <label for="skill-name">Tên kỹ năng</label>
+                                    <label for="skill-name"><i class="fas fa-lightbulb"></i> Tên kỹ năng</label>
                                     <input type="text" id="skill-name" name="name" required>
                                 </div>
                                 <div class="form-group">
-                                    <label for="skill-level">Mức độ thành thạo (%)</label>
+                                    <label for="skill-level"><i class="fas fa-percentage"></i> Mức độ thành thạo (%)</label>
                                     <input type="number" id="skill-level" name="level" min="0" max="100" required>
                                     <div class="range-slider">
                                         <input type="range" id="skill-range" min="0" max="100" value="0">
@@ -226,86 +225,79 @@
                                     </div>
                                 </div>
                                 <div class="form-actions">
-                                    <button type="submit" class="btn btn-primary">Lưu kỹ năng</button>
-                                    <button type="button" class="btn btn-outline" id="cancel-skill">Huỷ</button>
+                                    <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Lưu kỹ năng</button>
+                                    <button type="button" class="btn btn-outline" id="cancel-skill"><i class="fas fa-times"></i> Huỷ</button>
                                 </div>
                                 <input type="hidden" id="skill-index" value="-1">
                             </form>
                         </div>
                         <div class="actions-container">
-                            <button type="button" class="btn btn-primary" id="save-skills">Lưu tất cả kỹ năng</button>
+                            <button type="button" class="btn btn-primary" id="save-skills"><i class="fas fa-save"></i> Lưu tất cả kỹ năng</button>
                         </div>
                     </section>
 
                     <!-- Experience Section -->
                     <section id="experience-section" class="admin-section" style="display: none;">
-                        <h2>Kinh nghiệm</h2>
+                        <h2><i class="fas fa-briefcase"></i> Kinh nghiệm</h2>
                         <div class="experience-container">
-                            <div id="experience-list">
-                                <!-- Experience items will be added dynamically -->
-                            </div>
-                            <button type="button" class="btn btn-secondary" id="add-experience">Thêm kinh
+                            <div id="experience-list"></div>
+                            <button type="button" class="btn btn-secondary" id="add-experience"><i class="fas fa-plus"></i> Thêm kinh
                                 nghiệm</button>
                         </div>
                         <div class="experience-form-container" id="experience-form-container" style="display: none;">
-                            <h3>Thêm/Chỉnh sửa kinh nghiệm</h3>
+                            <h3><i class="fas fa-edit"></i> Thêm/Chỉnh sửa kinh nghiệm</h3>
                             <form id="experience-form">
                                 <div class="form-group">
-                                    <label for="experience-title">Chức danh</label>
+                                    <label for="experience-title"><i class="fas fa-user-tie"></i> Chức danh</label>
                                     <input type="text" id="experience-title" name="title" required>
                                 </div>
                                 <div class="form-group">
-                                    <label for="experience-company">Công ty/Tổ chức</label>
+                                    <label for="experience-company"><i class="fas fa-building"></i> Công ty/Tổ chức</label>
                                     <input type="text" id="experience-company" name="company" required>
                                 </div>
                                 <div class="form-row">
                                     <div class="form-group">
-                                        <label for="experience-start">Thời gian bắt đầu</label>
-                                        <input type="text" id="experience-start" name="startDate" placeholder="MM/YYYY"
-                                            required>
+                                        <label for="experience-start"><i class="fas fa-calendar-plus"></i> Thời gian bắt đầu</label>
+                                        <input type="text" id="experience-start" name="startDate" placeholder="MM/YYYY" required>
                                     </div>
                                     <div class="form-group">
-                                        <label for="experience-end">Thời gian kết thúc</label>
-                                        <input type="text" id="experience-end" name="endDate"
-                                            placeholder="MM/YYYY hoặc Hiện tại">
+                                        <label for="experience-end"><i class="fas fa-calendar-minus"></i> Thời gian kết thúc</label>
+                                        <input type="text" id="experience-end" name="endDate" placeholder="MM/YYYY hoặc Hiện tại">
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="experience-description">Mô tả công việc</label>
-                                    <textarea id="experience-description" name="description" rows="4"
-                                        required></textarea>
+                                    <label for="experience-description"><i class="fas fa-tasks"></i> Mô tả công việc</label>
+                                    <textarea id="experience-description" name="description" rows="4" required></textarea>
                                 </div>
                                 <div class="form-actions">
-                                    <button type="submit" class="btn btn-primary">Lưu kinh nghiệm</button>
-                                    <button type="button" class="btn btn-outline" id="cancel-experience">Huỷ</button>
+                                    <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Lưu kinh nghiệm</button>
+                                    <button type="button" class="btn btn-outline" id="cancel-experience"><i class="fas fa-times"></i> Huỷ</button>
                                 </div>
                                 <input type="hidden" id="experience-index" value="-1">
                             </form>
                         </div>
                         <div class="actions-container">
-                            <button type="button" class="btn btn-primary" id="save-experiences">Lưu tất cả kinh
+                            <button type="button" class="btn btn-primary" id="save-experiences"><i class="fas fa-save"></i> Lưu tất cả kinh
                                 nghiệm</button>
                         </div>
                     </section>
 
                     <!-- Events Section -->
                     <section id="events-section" class="admin-section" style="display: none;">
-                        <h2>Sự kiện đã tổ chức</h2>
+                        <h2><i class="fas fa-calendar-alt"></i> Sự kiện đã tổ chức</h2>
                         <div class="events-container">
-                            <div id="events-list">
-                                <!-- Events items will be added dynamically -->
-                            </div>
-                            <button type="button" class="btn btn-secondary" id="add-event">Thêm sự kiện</button>
+                            <div id="events-list"></div>
+                            <button type="button" class="btn btn-secondary" id="add-event"><i class="fas fa-plus"></i> Thêm sự kiện</button>
                         </div>
                         <div class="events-form-container" id="events-form-container" style="display: none;">
-                            <h3>Thêm/Chỉnh sửa sự kiện</h3>
+                            <h3><i class="fas fa-edit"></i> Thêm/Chỉnh sửa sự kiện</h3>
                             <form id="events-form">
                                 <div class="form-group">
-                                    <label for="event-title">Tên sự kiện</label>
+                                    <label for="event-title"><i class="fas fa-heading"></i> Tên sự kiện</label>
                                     <input type="text" id="event-title" name="title" required>
                                 </div>
                                 <div class="form-group">
-                                    <label for="event-category">Loại sự kiện</label>
+                                    <label for="event-category"><i class="fas fa-tag"></i> Loại sự kiện</label>
                                     <select id="event-category" name="category" required>
                                         <option value="wedding">Đám cưới</option>
                                         <option value="corporate">Doanh nghiệp</option>
@@ -316,110 +308,82 @@
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label for="event-description">Mô tả sự kiện</label>
+                                    <label for="event-description"><i class="fas fa-align-left"></i> Mô tả sự kiện</label>
                                     <textarea id="event-description" name="description" rows="4" required></textarea>
                                 </div>
                                 <div class="form-group">
-                                    <label>Hình ảnh sự kiện</label>
+                                    <label><i class="fas fa-image"></i> Hình ảnh sự kiện</label>
                                     <div class="image-upload">
                                         <div class="image-preview">
                                             <img id="event-image-preview" src="" alt="Event Image Preview">
                                         </div>
                                         <div class="upload-controls">
                                             <input type="file" id="event-image-upload" accept="image/*">
-                                            <button type="button" class="btn btn-secondary" id="select-event-image">Chọn
+                                            <button type="button" class="btn btn-secondary" id="select-event-image"><i class="fas fa-upload"></i> Chọn
                                                 ảnh</button>
                                         </div>
                                     </div>
                                     <input type="hidden" id="event-image" name="image">
                                 </div>
                                 <div class="form-group">
-                                    <label for="event-services">Dịch vụ cung cấp</label>
-                                    <input type="text" id="event-services" name="services"
-                                        placeholder="VD: Event Planning, Decoration, Catering, Photography" required>
+                                    <label for="event-services"><i class="fas fa-concierge-bell"></i> Dịch vụ cung cấp</label>
+                                    <input type="text" id="event-services" name="services" placeholder="VD: Event Planning, Decoration, Catering, Photography" required>
                                     <small>Nhập các dịch vụ, phân cách bằng dấu phẩy</small>
                                 </div>
                                 <div class="form-row">
                                     <div class="form-group">
-                                        <label for="event-budget">Ngân sách</label>
-                                        <input type="text" id="event-budget" name="budget"
-                                            placeholder="VD: 500 triệu VNĐ">
+                                        <label for="event-budget"><i class="fas fa-money-bill-wave"></i> Ngân sách</label>
+                                        <input type="text" id="event-budget" name="budget" placeholder="VD: 500 triệu VNĐ">
                                     </div>
                                     <div class="form-group">
-                                        <label for="event-duration">Thời gian chuẩn bị</label>
-                                        <input type="text" id="event-duration" name="duration"
-                                            placeholder="VD: 3 tháng chuẩn bị">
+                                        <label for="event-duration"><i class="fas fa-hourglass-half"></i> Thời gian chuẩn bị</label>
+                                        <input type="text" id="event-duration" name="duration" placeholder="VD: 3 tháng chuẩn bị">
                                     </div>
                                 </div>
                                 <div class="form-actions">
-                                    <button type="submit" class="btn btn-primary">Lưu sự kiện</button>
-                                    <button type="button" class="btn btn-outline" id="cancel-event">Huỷ</button>
+                                    <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Lưu sự kiện</button>
+                                    <button type="button" class="btn btn-outline" id="cancel-event"><i class="fas fa-times"></i> Huỷ</button>
                                 </div>
                                 <input type="hidden" id="event-index" value="-1">
                             </form>
                         </div>
                         <div class="actions-container">
-                            <button type="button" class="btn btn-primary" id="save-events">Lưu tất cả sự kiện</button>
+                            <button type="button" class="btn btn-primary" id="save-events"><i class="fas fa-save"></i> Lưu tất cả sự kiện</button>
                         </div>
                     </section>
 
                     <!-- Change Password Section -->
                     <section id="change-password-section" class="admin-section" style="display: none;">
-                        <h2>Đổi mật khẩu</h2>
+                        <h2><i class="fas fa-key"></i> Đổi mật khẩu</h2>
                         <form id="change-password-form">
                             <div class="form-group">
-                                <label for="current-password">Mật khẩu hiện tại</label>
+                                <label for="current-password"><i class="fas fa-lock"></i> Mật khẩu hiện tại</label>
                                 <input type="password" id="current-password" name="currentPassword" required>
                             </div>
                             <div class="form-group">
-                                <label for="new-password">Mật khẩu mới</label>
+                                <label for="new-password"><i class="fas fa-key"></i> Mật khẩu mới</label>
                                 <input type="password" id="new-password" name="newPassword" required>
                             </div>
                             <div class="form-group">
-                                <label for="confirm-password">Xác nhận mật khẩu mới</label>
+                                <label for="confirm-password"><i class="fas fa-check-double"></i> Xác nhận mật khẩu mới</label>
                                 <input type="password" id="confirm-password" name="confirmPassword" required>
                             </div>
                             <div class="form-actions">
-                                <button type="submit" class="btn btn-primary">Đổi mật khẩu</button>
+                                <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Đổi mật khẩu</button>
                             </div>
                             <div class="error-message" id="change-password-error"></div>
                             <div class="success-message" id="change-password-success"></div>
                         </form>
                     </section>
 
-                    <!-- Change Password Section -->
-                    <section id="change-password-section" class="admin-section" style="display: none;">
-                        <h2>Đổi mật khẩu</h2>
-                        <div class="change-password-container">
-                            <form id="change-password-form">
-                                <div class="form-group">
-                                    <label for="current-password">Mật khẩu hiện tại</label>
-                                    <input type="password" id="current-password" name="currentPassword" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="new-password">Mật khẩu mới</label>
-                                    <input type="password" id="new-password" name="newPassword" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="confirm-password">Xác nhận mật khẩu mới</label>
-                                    <input type="password" id="confirm-password" name="confirmPassword" required>
-                                </div>
-                                <div class="form-actions">
-                                    <button type="submit" class="btn btn-primary">Đổi mật khẩu</button>
-                                </div>
-                            </form>
-                            <div class="message" id="change-password-message"></div>
-                        </div>
-                    </section>
-
                     <!-- Preview Section -->
                     <section id="preview-section" class="admin-section" style="display: none;">
-                        <h2>Xem trước</h2>
+                        <h2><i class="fas fa-eye"></i> Xem trước</h2>
                         <div class="preview-container">
                             <p>Xem trước website của bạn:</p>
                             <div class="preview-actions">
-                                <a href="/" target="_blank" class="btn btn-primary">Mở trang chủ</a>
-                                <button type="button" class="btn btn-secondary" id="refresh-preview">Làm mới</button>
+                                <a href="/" target="_blank" class="btn btn-primary"><i class="fas fa-external-link-alt"></i> Mở trang chủ</a>
+                                <button type="button" class="btn btn-secondary" id="refresh-preview"><i class="fas fa-sync-alt"></i> Làm mới</button>
                             </div>
                             <div class="preview-frame">
                                 <iframe id="preview-iframe" src="/" title="Website Preview"></iframe>
@@ -436,6 +400,22 @@
         <div class="notification-content">
             <i class="notification-icon"></i>
             <p class="notification-message"></p>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal-overlay" id="modal-overlay">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h3 id="modal-title"><i class="fas fa-edit"></i> Chỉnh sửa</h3>
+                <button class="modal-close" id="modal-close"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body" id="modal-body">
+                <!-- Nội dung form sẽ được thêm vào đây -->
+            </div>
+            <div class="modal-footer" id="modal-footer">
+                <!-- Các nút hành động sẽ được thêm vào đây -->
+            </div>
         </div>
     </div>
 </body>
